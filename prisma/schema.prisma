@@ -11,23 +11,22 @@ datasource db {
 }
 
 model Customer {
-  id              String            @id @default(uuid()) @db.Uuid
-  firstName       String
-  lastName        String
-  email           String            @unique
-  phoneNumber     String
-  dateOfBirth     DateTime
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-  address         Address?          @relation(fields: [addressId], references: [id])
-  savedCards      Card[]
-  favoritess      Product[]         @relation(name: "FavoriteItems")
-  wishList        Product[]         @relation(name: "WishList")
-  cart            CartItem[]
-  receipts        Receipt[]
-  addressId       String?           @db.Uuid
-  ProductPurchase ProductPurchase[]
-  Product         Product[]
+  id          String     @id @default(uuid()) @db.Uuid
+  firstName   String
+  lastName    String
+  email       String     @unique
+  phoneNumber String
+  dateOfBirth DateTime
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  address     Address?   @relation(fields: [addressId], references: [id])
+  savedCards  Card[]
+  favoritess  Product[]  @relation(name: "FavoriteItems")
+  wishList    Product[]  @relation(name: "WishList")
+  cart        CartItem[]
+  addressId   String?    @db.Uuid
+  purhases    Purchase[]
+  Product     Product[]
 }
 
 model Address {
@@ -42,6 +41,7 @@ model Address {
   updatedAt   DateTime   @updatedAt
   customers   Customer[]
   Supplier    Supplier[]
+  commands    Command[]
 }
 
 model Card {
@@ -55,14 +55,33 @@ model Card {
   customers   Customer[]
 }
 
-model ProductPurchase {
-  id         String    @id @default(uuid()) @db.Uuid
-  receipt    Receipt   @relation(fields: [receiptId], references: [id])
-  receiptId  Int
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  Customer   Customer? @relation(fields: [customerId], references: [id])
-  customerId String?   @db.Uuid
+model Purchase {
+  id         String         @id @default(uuid()) @db.Uuid
+  createdAt  DateTime       @default(now())
+  customer   Customer?      @relation(fields: [customerId], references: [id])
+  customerId String?        @db.Uuid
+  command    Command?
+  items      PurchaseItem[]
+  totalPrice Decimal
+}
+
+model PurchaseItem {
+  id         String   @id @default(uuid()) @db.Uuid
+  quantity   Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  product    Product  @relation(fields: [productId], references: [id])
+  productId  String   @db.Uuid
+  purchase   Purchase @relation(fields: [purchaseId], references: [id])
+  purchaseId String   @db.Uuid
+}
+
+model Command {
+  id                String   @id @default(uuid()) @db.Uuid
+  deliveryAddress   Address  @relation(fields: [deliveryAddressId], references: [id])
+  deliveryAddressId String   @db.Uuid
+  purchase          Purchase @relation(fields: [purchaseId], references: [id])
+  purchaseId        String   @unique @db.Uuid
 }
 
 model Category {
@@ -78,58 +97,37 @@ model Category {
 }
 
 model Product {
-  id             String        @id @default(uuid()) @db.Uuid
+  id             String         @id @default(uuid()) @db.Uuid
   name           String
-  category       Category      @relation(fields: [categoryId], references: [id])
+  category       Category       @relation(fields: [categoryId], references: [id])
   stock          Int
-  price          Float
+  price          Decimal
   images         String[]
-  supplier       Supplier      @relation(fields: [supplierId], references: [id])
-  manufacturer   Manufacturer  @relation(fields: [manufacturerId], references: [id])
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
-  favoriteOf     Customer[]    @relation("FavoriteItems")
-  wishedBy       Customer[]    @relation("WishList")
+  supplier       Supplier       @relation(fields: [supplierId], references: [id])
+  manufacturer   Manufacturer   @relation(fields: [manufacturerId], references: [id])
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  favoriteOf     Customer[]     @relation("FavoriteItems")
+  wishedBy       Customer[]     @relation("WishList")
   inCart         CartItem[]
   categoryId     Int
-  supplierId     String        @db.Uuid
-  manufacturerId String        @db.Uuid
-  ReceiptItem    ReceiptItem[]
-  Customer       Customer?     @relation(fields: [customerId], references: [id])
-  customerId     String?       @db.Uuid
+  supplierId     String         @db.Uuid
+  manufacturerId String         @db.Uuid
+  purchaseItems  PurchaseItem[]
+  Customer       Customer?      @relation(fields: [customerId], references: [id])
+  customerId     String?        @db.Uuid
+  soldes         Promotion[]
 }
 
 model CartItem {
-  id         String   @id @default(uuid()) @db.Uuid
+  id         String    @id @default(uuid()) @db.Uuid
   quantity   Int
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  customer   Customer @relation(fields: [customerId], references: [id])
-  customerId String   @db.Uuid
-  product    Product  @relation(fields: [productId], references: [id])
-  productId  String   @db.Uuid
-}
-
-model Receipt {
-  id              Int               @id @default(autoincrement())
-  totalPrice      Float
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-  customer        Customer          @relation(fields: [customerId], references: [id])
-  customerId      String            @db.Uuid
-  receiptItems    ReceiptItem[]
-  ProductPurchase ProductPurchase[]
-}
-
-model ReceiptItem {
-  id        String   @id @default(uuid()) @db.Uuid
-  quantity  Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  product   Product  @relation(fields: [productId], references: [id])
-  productId String   @db.Uuid
-  receipt   Receipt  @relation(fields: [receiptId], references: [id])
-  receiptId Int
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  product    Product   @relation(fields: [productId], references: [id])
+  productId  String    @db.Uuid
+  Customer   Customer? @relation(fields: [customerId], references: [id])
+  customerId String?   @db.Uuid
 }
 
 model Supplier {
@@ -152,4 +150,16 @@ model Manufacturer {
   products    Product[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+}
+
+model Promotion {
+  id              Int       @id @default(autoincrement())
+  name            String    @unique
+  description     String
+  discountAmount  Float?
+  discountPercent Float?
+  startDate       DateTime
+  endDate         DateTime
+  isActive        Boolean   @default(true)
+  products        Product[]
 }
