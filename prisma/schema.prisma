@@ -1,0 +1,154 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Customer {
+  id              Int               @id @default(autoincrement())
+  firstName       String
+  lastName        String
+  email           String            @unique
+  phoneNumber     String
+  dateOfBirth     DateTime
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  address         Address?          @relation(fields: [addressId], references: [id])
+  savedCards      Card[]
+  favoritess      Product[]         @relation(name: "FavoriteItems")
+  wishList        Product[]         @relation(name: "WishList")
+  cart            CartItem[]
+  receipts        Receipt[]
+  addressId       Int?
+  ProductPurchase ProductPurchase[]
+  Product         Product[]
+}
+
+model Address {
+  id          Int        @id @default(autoincrement())
+  country     String
+  state       String
+  city        String
+  street      String
+  postalCode  String
+  houseNumber String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  customers   Customer[]
+  Supplier    Supplier[]
+}
+
+model Card {
+  id          Int        @id @default(autoincrement())
+  cardNumber  String
+  expiryMonth Int
+  expiryYear  Int
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  customers   Customer[]
+}
+
+model ProductPurchase {
+  id         Int       @id @default(autoincrement())
+  receipt    Receipt   @relation(fields: [receiptId], references: [id])
+  receiptId  Int
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  Customer   Customer? @relation(fields: [customerId], references: [id])
+  customerId Int?
+}
+
+model Category {
+  id          Int        @id @default(autoincrement())
+  name        String
+  description String?
+  parent      Category?  @relation("CategoryToParent", fields: [parentId], references: [id])
+  parentId    Int?
+  children    Category[] @relation("CategoryToParent")
+  products    Product[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Product {
+  id             Int           @id @default(autoincrement())
+  name           String
+  category       Category      @relation(fields: [categoryId], references: [id])
+  stock          Int
+  price          Float
+  images         String[]
+  supplier       Supplier      @relation(fields: [supplierId], references: [id])
+  manufacturer   Manufacturer  @relation(fields: [manufacturerId], references: [id])
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  favoriteOf     Customer[]    @relation("FavoriteItems")
+  wishedBy       Customer[]    @relation("WishList")
+  inCart         CartItem[]
+  categoryId     Int
+  supplierId     Int
+  manufacturerId Int
+  ReceiptItem    ReceiptItem[]
+  Customer       Customer?     @relation(fields: [customerId], references: [id])
+  customerId     Int?
+}
+
+model CartItem {
+  id         Int      @id @default(autoincrement())
+  quantity   Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  customer   Customer @relation(fields: [customerId], references: [id])
+  customerId Int
+  product    Product  @relation(fields: [productId], references: [id])
+  productId  Int
+}
+
+model Receipt {
+  id              Int               @id @default(autoincrement())
+  totalPrice      Float
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  customer        Customer          @relation(fields: [customerId], references: [id])
+  customerId      Int
+  receiptItems    ReceiptItem[]
+  ProductPurchase ProductPurchase[]
+}
+
+model ReceiptItem {
+  id        Int      @id @default(autoincrement())
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  product   Product  @relation(fields: [productId], references: [id])
+  productId Int
+  receipt   Receipt  @relation(fields: [receiptId], references: [id])
+  receiptId Int
+}
+
+model Supplier {
+  id          Int       @id @default(autoincrement())
+  name        String
+  email       String    @unique
+  phoneNumber String    @unique
+  address     Address   @relation(fields: [addressId], references: [id])
+  addressId   Int
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Manufacturer {
+  id          Int       @id @default(autoincrement())
+  name        String
+  email       String    @unique
+  phoneNumber String    @unique
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}

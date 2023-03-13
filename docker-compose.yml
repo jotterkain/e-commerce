@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  db-dev:
+    container_name: ecommerce
+    image: postgres:15.0-alpine
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: ecommerce
+    networks:
+      - db
+networks:
+  db:
