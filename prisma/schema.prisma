@@ -11,20 +11,19 @@ datasource db {
 }
 
 model Customer {
-  id          String     @id @default(uuid()) @db.Uuid
+  id          String           @id @default(uuid()) @db.Uuid
   firstName   String
   lastName    String
-  email       String     @unique
-  phoneNumber String
+  contact     CustomerContact?
   dateOfBirth DateTime
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  address     Address?   @relation(fields: [addressId], references: [id])
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  address     Address?         @relation(fields: [addressId], references: [id])
   savedCards  Card[]
-  favoritess  Product[]  @relation(name: "FavoriteItems")
-  wishList    Product[]  @relation(name: "WishList")
+  favoritess  Product[]        @relation(name: "FavoriteItems")
+  wishList    Product[]        @relation(name: "WishList")
   cart        CartItem[]
-  addressId   String?    @db.Uuid
+  addressId   String?          @db.Uuid
   purhases    Purchase[]
   Product     Product[]
 }
@@ -97,26 +96,26 @@ model Category {
 }
 
 model Product {
-  id             String         @id @default(uuid()) @db.Uuid
+  id             String          @id @default(uuid()) @db.Uuid
   name           String
-  category       Category       @relation(fields: [categoryId], references: [id])
+  category       Category        @relation(fields: [categoryId], references: [id])
   stock          Int
   price          Decimal
   images         String[]
-  supplier       Supplier       @relation(fields: [supplierId], references: [id])
-  manufacturer   Manufacturer   @relation(fields: [manufacturerId], references: [id])
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
-  favoriteOf     Customer[]     @relation("FavoriteItems")
-  wishedBy       Customer[]     @relation("WishList")
+  supplier       Supplier        @relation(fields: [supplierId], references: [id])
+  manufacturer   Manufacturer    @relation(fields: [manufacturerId], references: [id])
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  favoriteOf     Customer[]      @relation("FavoriteItems")
+  wishedBy       Customer[]      @relation("WishList")
   inCart         CartItem[]
   categoryId     Int
-  supplierId     String         @db.Uuid
-  manufacturerId String         @db.Uuid
+  supplierId     String          @db.Uuid
+  manufacturerId String          @db.Uuid
   purchaseItems  PurchaseItem[]
-  Customer       Customer?      @relation(fields: [customerId], references: [id])
-  customerId     String?        @db.Uuid
-  soldes         Promotion[]
+  Customer       Customer?       @relation(fields: [customerId], references: [id])
+  customerId     String?         @db.Uuid
+  soldes         SpecialOffers[]
 }
 
 model CartItem {
@@ -152,8 +151,8 @@ model Manufacturer {
   updatedAt   DateTime  @updatedAt
 }
 
-model Promotion {
-  id              Int       @id @default(autoincrement())
+model SpecialOffers {
+  id              String    @id @default(uuid()) @db.Uuid
   name            String    @unique
   description     String
   discountAmount  Float?
@@ -162,4 +161,11 @@ model Promotion {
   endDate         DateTime
   isActive        Boolean   @default(true)
   products        Product[]
+}
+
+model CustomerContact {
+  email       String   @unique
+  phoneNumber String   @unique
+  customer    Customer @relation(fields: [customerId], references: [id])
+  customerId  String   @unique @db.Uuid
 }
