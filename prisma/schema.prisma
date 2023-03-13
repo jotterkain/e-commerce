@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Customer {
-  id              Int               @id @default(autoincrement())
+  id              String            @id @default(uuid()) @db.Uuid
   firstName       String
   lastName        String
   email           String            @unique
@@ -25,13 +25,13 @@ model Customer {
   wishList        Product[]         @relation(name: "WishList")
   cart            CartItem[]
   receipts        Receipt[]
-  addressId       Int?
+  addressId       String?           @db.Uuid
   ProductPurchase ProductPurchase[]
   Product         Product[]
 }
 
 model Address {
-  id          Int        @id @default(autoincrement())
+  id          String     @id @default(uuid()) @db.Uuid
   country     String
   state       String
   city        String
@@ -45,23 +45,24 @@ model Address {
 }
 
 model Card {
-  id          Int        @id @default(autoincrement())
-  cardNumber  String
+  id          String     @id @default(uuid()) @db.Uuid
+  cardNumber  String     @unique
   expiryMonth Int
   expiryYear  Int
+  cvvHash     String     @unique
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
   customers   Customer[]
 }
 
 model ProductPurchase {
-  id         Int       @id @default(autoincrement())
+  id         String    @id @default(uuid()) @db.Uuid
   receipt    Receipt   @relation(fields: [receiptId], references: [id])
   receiptId  Int
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   Customer   Customer? @relation(fields: [customerId], references: [id])
-  customerId Int?
+  customerId String?   @db.Uuid
 }
 
 model Category {
@@ -77,7 +78,7 @@ model Category {
 }
 
 model Product {
-  id             Int           @id @default(autoincrement())
+  id             String        @id @default(uuid()) @db.Uuid
   name           String
   category       Category      @relation(fields: [categoryId], references: [id])
   stock          Int
@@ -91,22 +92,22 @@ model Product {
   wishedBy       Customer[]    @relation("WishList")
   inCart         CartItem[]
   categoryId     Int
-  supplierId     Int
-  manufacturerId Int
+  supplierId     String        @db.Uuid
+  manufacturerId String        @db.Uuid
   ReceiptItem    ReceiptItem[]
   Customer       Customer?     @relation(fields: [customerId], references: [id])
-  customerId     Int?
+  customerId     String?       @db.Uuid
 }
 
 model CartItem {
-  id         Int      @id @default(autoincrement())
+  id         String   @id @default(uuid()) @db.Uuid
   quantity   Int
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   customer   Customer @relation(fields: [customerId], references: [id])
-  customerId Int
+  customerId String   @db.Uuid
   product    Product  @relation(fields: [productId], references: [id])
-  productId  Int
+  productId  String   @db.Uuid
 }
 
 model Receipt {
@@ -115,36 +116,36 @@ model Receipt {
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
   customer        Customer          @relation(fields: [customerId], references: [id])
-  customerId      Int
+  customerId      String            @db.Uuid
   receiptItems    ReceiptItem[]
   ProductPurchase ProductPurchase[]
 }
 
 model ReceiptItem {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid()) @db.Uuid
   quantity  Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   product   Product  @relation(fields: [productId], references: [id])
-  productId Int
+  productId String   @db.Uuid
   receipt   Receipt  @relation(fields: [receiptId], references: [id])
   receiptId Int
 }
 
 model Supplier {
-  id          Int       @id @default(autoincrement())
+  id          String    @id @default(uuid()) @db.Uuid
   name        String
   email       String    @unique
   phoneNumber String    @unique
   address     Address   @relation(fields: [addressId], references: [id])
-  addressId   Int
+  addressId   String    @db.Uuid
   products    Product[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }
 
 model Manufacturer {
-  id          Int       @id @default(autoincrement())
+  id          String    @id @default(uuid()) @db.Uuid
   name        String
   email       String    @unique
   phoneNumber String    @unique
