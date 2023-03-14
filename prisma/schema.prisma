@@ -11,21 +11,21 @@ datasource db {
 }
 
 model Customer {
-  id          String     @id
+  id          String    @id
   firstName   String
   lastName    String?
-  email       String     @unique
-  phoneNumber String?    @unique
+  email       String    @unique
+  phoneNumber String?   @unique
   dateOfBirth DateTime
-  address     Address?   @relation(fields: [addressId], references: [id])
+  address     Address?  @relation(fields: [addressId], references: [id])
   savedCards  Card[]
-  favoritess  Product[]  @relation(name: "FavoriteItems")
-  wishList    Product[]  @relation(name: "WishList")
+  favoritess  Product[] @relation(name: "FavoriteItems")
+  wishList    Product[] @relation(name: "WishList")
   cart        Cart?
-  addressId   String?    @db.Uuid
-  purhases    Purchase[]
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  addressId   String?   @db.Uuid
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  orders      Order[]
 }
 
 model Address {
@@ -41,37 +41,16 @@ model Address {
   updatedAt    DateTime   @updatedAt
   customers    Customer[]
   Supplier     Supplier[]
-  purchases    Purchase[]
+  Order        Order[]
 }
 
+// we will use an external service to save the full
+// data infos... we will just store the id to fetch it here
 model Card {
-  id          String     @id @default(uuid()) @db.Uuid
-  cardNumber  String     @unique
-  expiryMonth Int
-  expiryYear  Int
-  cvvHash     String     @unique
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  customers   Customer[]
-}
-
-model Purchase {
-  id                String         @id @default(uuid()) @db.Uuid
-  createdAt         DateTime       @default(now())
-  customer          Customer?      @relation(fields: [customerId], references: [id])
-  customerId        String?
-  command           Command?
-  totalPrice        Decimal
-  deliveryAddress   Address        @relation(fields: [deliveryAddressId], references: [id])
-  deliveryAddressId String         @db.Uuid
-  items             PurchaseItem[]
-}
-
-model Command {
-  id         String   @id @default(uuid()) @db.Uuid
-  delivered  Boolean  @default(false)
-  purchase   Purchase @relation(fields: [purchaseId], references: [id])
-  purchaseId String   @unique @db.Uuid
+  id        String     @id @default(uuid()) @db.Uuid
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  customers Customer[]
 }
 
 model Category {
@@ -98,24 +77,34 @@ model Product {
   favoriteOf     Customer[]      @relation("FavoriteItems")
   wishedBy       Customer[]      @relation("WishList")
   inCart         CartItem[]
-  pucharseItems  PurchaseItem[]
   categoryId     Int
   supplierId     String          @db.Uuid
   manufacturerId String          @db.Uuid
   soldes         SpecialOffers[]
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
+  OrderItem      OrderItem[]
 }
 
-model PurchaseItem {
-  id         String   @id @default(uuid()) @db.Uuid
-  quantity   Int
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  product    Product  @relation(fields: [productId], references: [id])
-  productId  String   @db.Uuid
-  Purchase   Purchase @relation(fields: [purchaseId], references: [id])
-  purchaseId String   @db.Uuid
+model Order {
+  id              String      @id @default(uuid()) @db.Uuid
+  items           OrderItem[]
+  customer        Customer    @relation(fields: [customerId], references: [id])
+  customerId      String
+  deliveryAddress Address     @relation(fields: [addressId], references: [id])
+  addressId       String      @db.Uuid
+  delivered       Boolean     @default(false)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+}
+
+model OrderItem {
+  id        String  @id @default(uuid()) @db.Uuid
+  product   Product @relation(fields: [productId], references: [id])
+  quanity   Int
+  Order     Order?  @relation(fields: [orderId], references: [id])
+  orderId   String? @db.Uuid
+  productId String  @db.Uuid
 }
 
 model Cart {
@@ -127,12 +116,12 @@ model Cart {
 model CartItem {
   id        String   @id @default(uuid()) @db.Uuid
   quantity  Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
   product   Product  @relation(fields: [productId], references: [id])
   productId String   @db.Uuid
   cart      Cart     @relation(fields: [cartId], references: [customerId])
   cartId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Supplier {

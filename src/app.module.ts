@@ -7,13 +7,12 @@ import { ProductsModule } from './components/products/products.module';
 import { ManufacturersModule } from './components/manufacturers/manufacturers.module';
 import { SpecialOffersModule } from './components/special-offers/special-offers.module';
 import { SuppliersModule } from './components/suppliers/suppliers.module';
-import { PurchasesModule } from './components/purchases/purchases.module';
+import { OrdersModule } from './components/orders/orders.module';
 import { CommandsModule } from './components/commands/commands.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
 import { CartItemsModule } from './components/cart-items/cart-items.module';
 import { CardsModule } from './components/cards/cards.module';
-import { CartsController } from './components/carts/carts.controller';
 import { CartsModule } from './components/carts/carts.module';
 
 @Module({
@@ -28,14 +27,13 @@ import { CartsModule } from './components/carts/carts.module';
     ManufacturersModule,
     SpecialOffersModule,
     SuppliersModule,
-    PurchasesModule,
+    OrdersModule,
     CommandsModule,
     PrismaModule,
     CartItemsModule,
     CardsModule,
     CartsModule],
-
-  controllers: [CartsController],
+  controllers: [],
   providers: [AppService],
 })
 export class AppModule {
