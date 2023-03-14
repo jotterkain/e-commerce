@@ -1,8 +1,9 @@
-import { IsNotEmpty, IsOptional, IsPostalCode, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsPostalCode, IsString, IsUUID, Length } from 'class-validator';
 
 export class CreateAddressDto {
   @IsNotEmpty()
   @IsString()
+  @Length(2, 2)
   countryCode: string;
   @IsNotEmpty()
   @IsString()
@@ -22,8 +23,7 @@ export class CreateAddressDto {
   @IsOptional()
   @IsString()
   buildingName: string; // building known as
+  @IsOptional()
+  @IsUUID()
+  customerId: string;
 }
-
-/*
-  NOTE : Both neighborhood and PostalCode can't be empty. todo: implements that logic
-*/

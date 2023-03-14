@@ -16,16 +16,16 @@ model Customer {
   lastName    String?
   email       String    @unique
   phoneNumber String?   @unique
-  dateOfBirth DateTime
-  address     Address?  @relation(fields: [addressId], references: [id])
+  dateOfBirth String
+  hibernated  Boolean   @default(false)
   savedCards  Card[]
   favoritess  Product[] @relation(name: "FavoriteItems")
   wishList    Product[] @relation(name: "WishList")
   cart        Cart?
-  addressId   String?   @db.Uuid
+  orders      Order[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  orders      Order[]
+  Address     Address?
 }
 
 model Address {
@@ -39,7 +39,8 @@ model Address {
   buildingName String? // building known as
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
-  customers    Customer[]
+  customer     Customer?  @relation(fields: [customerId], references: [id])
+  customerId   String?    @unique
   Supplier     Supplier[]
   Order        Order[]
 }

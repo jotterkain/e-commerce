@@ -1,4 +1,14 @@
-import { IsDecimal, IsInt, IsNotEmpty, IsOptional, IsString, IsUrl, ValidateNested } from 'class-validator';
+import {
+  ArrayNotEmpty,
+  IsArray,
+  IsDecimal,
+  IsInt,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUrl,
+  ValidateNested,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class CreateProductDto {
@@ -14,7 +24,8 @@ export class CreateProductDto {
   @IsNotEmpty()
   @IsDecimal()
   price: number
-  @IsNotEmpty()
+  @IsArray()
+  @ArrayNotEmpty()
   @ValidateNested({ each: true })
   @Type(() => ImageDto)
   images: ImageDto[]
