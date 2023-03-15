@@ -29,4 +29,12 @@ export class SecurityService {
     const encryptedAsBuffer = Buffer.from(encryptedText, 'base64');
     return Buffer.concat([decipher.update(encryptedAsBuffer), decipher.final()]).toString();
   }
+
+  encryptOr(text: string) {
+    if (!(text?.trim().length)) {
+      return;
+    } else {
+      return this.encrypt(text);
+    }
+  }
 }

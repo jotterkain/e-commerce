@@ -6,6 +6,10 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "prisma:dev:deploy": "prisma migrate deploy",
+    "db:dev:rm": "docker compose rm db-dev -s -f -v",
+    "db:dev:up": "docker-compose up -d db-dev",
+    "db:dev:restart": "pnpm db:dev:rm && pnpm db:dev:up && echo '\nWait 3 seconds\n' && sleep 3 && pnpm prisma:dev:deploy",
     "build": "nest build",
     "start": "nest start",
     "start:dev": "nest start --watch",
