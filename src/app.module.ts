@@ -14,6 +14,7 @@ import { ConfigModule } from '@nestjs/config';
 import { CartItemsModule } from './components/cart-items/cart-items.module';
 import { CardsModule } from './components/cards/cards.module';
 import { CartsModule } from './components/carts/carts.module';
+import { SecurityModule } from './security/security.module';
 
 @Module({
   imports: [
@@ -32,7 +33,8 @@ import { CartsModule } from './components/carts/carts.module';
     PrismaModule,
     CartItemsModule,
     CardsModule,
-    CartsModule],
+    CartsModule,
+    SecurityModule],
   controllers: [],
   providers: [AppService],
 })
