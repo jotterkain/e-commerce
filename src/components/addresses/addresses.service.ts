@@ -30,10 +30,9 @@ export class AddressesService {
   }
 
   async createAddress(addressDto: CreateAddressDto) {
-    if ((addressDto.neighborhood === undefined || addressDto.neighborhood.trim().length === 0) && (addressDto.postalCode === undefined || addressDto.postalCode.trim().length === 0)) {
+    if ( !(addressDto.neighborhood?.trim() || addressDto.postalCode?.trim()) ) {
       throw new BadRequestException('Both neighborhood and PostalCode can\'t be empty.');
     }
-
     try {
       return await this.prismaService.address.create({ data: addressDto });
     } catch (err) {

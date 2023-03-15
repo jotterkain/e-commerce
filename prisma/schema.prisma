@@ -33,8 +33,8 @@ model Address {
   countryCode  String
   state        String
   city         String
-  street       String
-  postalCode   String
+  street       String?
+  postalCode   String?
   neighborhood String?
   buildingName String? // building known as
   createdAt    DateTime   @default(now())

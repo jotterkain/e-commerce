@@ -11,7 +11,7 @@ export class CreateAddressDto {
   @IsNotEmpty()
   @IsString()
   city: string;
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   street: string;
   @IsOptional()
