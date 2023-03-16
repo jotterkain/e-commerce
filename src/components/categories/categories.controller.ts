@@ -9,27 +9,27 @@ export class CategoriesController {
   }
 
   @Get()
-  getCategories() {
-    return this.categoriesService.getCategories();
+  findAll() {
+    return this.categoriesService.findAll();
   }
 
   @Get(':id')
-  getCategory(@Param('id') id: string) {
-    return this.categoriesService.getCategory(id);
+  findOne(@Param('id') id: string) {
+    return this.categoriesService.findOne(id);
   }
 
   @Post()
-  createCategory(@Body() categoryDto: CreateCategoryDto) {
-    return this.categoriesService.createCategory(categoryDto);
+  create(@Body() categoryDto: CreateCategoryDto) {
+    return this.categoriesService.create(categoryDto);
   }
 
   @Put(':id')
-  updateCategory(@Param('id') id: string, @Body() categoryDto: UpdateCategoryDto) {
-    return this.categoriesService.updateCategory(id, categoryDto);
+  update(@Param('id') id: string, @Body() categoryDto: UpdateCategoryDto) {
+    return this.categoriesService.update(id, categoryDto);
   }
 
   @Delete(':id')
-  deleteCategory(@Param('id') id: string) {
-    return this.categoriesService.deleteCategory(id);
+  delete(@Param('id') id: string) {
+    return this.categoriesService.delete(id);
   }
 }

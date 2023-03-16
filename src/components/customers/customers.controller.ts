@@ -8,27 +8,27 @@ export class CustomersController {
   }
 
   @Get()
-  getCustomers() {
-    return this.customersService.getCustomers();
+  findAll() {
+    return this.customersService.findAll();
   }
 
   @Get(':id')
-  getCustomer(@Param('id') id: string) {
-    return this.customersService.getCustomer(id);
+  findOne(@Param('id') id: string) {
+    return this.customersService.findOne(id);
   }
 
   @Post()
-  createCustomer(@Body() customerDto: CreateCustomerDto) {
-    return this.customersService.createCustomer(customerDto);
+  create(@Body() customerDto: CreateCustomerDto) {
+    return this.customersService.create(customerDto);
   }
 
   @Put(':id')
-  updateCustomer(@Param('id') id: string, @Body() customerDto: UpdateCustomerDto) {
-    return this.customersService.updateCustomer(id, customerDto);
+  update(@Param('id') id: string, @Body() customerDto: UpdateCustomerDto) {
+    return this.customersService.update(id, customerDto);
   }
 
   @Delete('id')
-  deleteCustomer(@Param('id') id: string) {
-    return this.customersService.deleteCustomer(id);
+  delete(@Param('id') id: string) {
+    return this.customersService.delete(id);
   }
 }

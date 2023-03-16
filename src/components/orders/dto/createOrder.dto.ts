@@ -3,18 +3,20 @@ import { Type } from 'class-transformer';
 
 export class CreateOrderDto {
   @IsUUID()
-  customerId: string
+  customerId: string;
   @IsNotEmpty()
   @ValidateNested({ each: true })
   @Type(() => OrderItemDto)
-  items: OrderItemDto[]
+  items: OrderItemDto[];
   @IsUUID()
-  addressId: string
+  addressId: string;
+  @IsUUID()
+  cardId: string;
 }
 
 class OrderItemDto {
   @IsUUID()
-  productId: string
+  productId: string;
   @IsInt()
-  quantity: number
+  quantity: number;
 }

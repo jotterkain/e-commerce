@@ -1,7 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { AddressesService } from './addresses.service';
-import { CreateAddressDto } from './dto';
-import { UpdateAddressDto } from './dto/updateAddress.dto';
+import { CreateAddressDto , UpdateAddressDto} from './dto';
 
 @Controller('addresses')
 export class AddressesController {
@@ -9,27 +8,27 @@ export class AddressesController {
   }
 
   @Get()
-  getAddresses() {
-    return this.addressService.getAddresses();
+  findAll() {
+    return this.addressService.finAll();
   }
 
   @Get(':id')
-  getAddress(@Param('id') id: string) {
-    return this.addressService.getAddress(id);
+  findOne(@Param('id') id: string) {
+    return this.addressService.findOne(id);
   }
 
   @Post()
-  createAddress(@Body() addressDto: CreateAddressDto) {
-    return this.addressService.createAddress(addressDto);
+  create(@Body() addressDto: CreateAddressDto) {
+    return this.addressService.create(addressDto);
   }
 
   @Put(':id')
-  updateAddress(@Param('id') id: string, @Body() addressDto: UpdateAddressDto) {
-    return this.addressService.updateAddress(id, addressDto);
+  update(@Param('id') id: string, @Body() addressDto: UpdateAddressDto) {
+    return this.addressService.update(id, addressDto);
   }
 
   @Delete('id')
-  deleteAddress(@Param('id') id: string) {
-    return this.addressService.deleteAddress(id);
+  delete(@Param('id') id: string) {
+    return this.addressService.delete(id);
   }
 }

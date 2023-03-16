@@ -9,7 +9,7 @@ export class CategoriesService {
   constructor(private prismaService: PrismaService) {
   }
 
-  async getCategories() {
+  async findAll() {
     try {
       return await this.prismaService.category.findMany();
     } catch (err) {
@@ -17,7 +17,7 @@ export class CategoriesService {
     }
   }
 
-  async getCategory(id: string) {
+  async findOne(id: string) {
     try {
       parseInt(id)
     }catch (err){
@@ -30,7 +30,7 @@ export class CategoriesService {
     }
   }
 
-  async createCategory(categoryDto: CreateCategoryDto) {
+  async create(categoryDto: CreateCategoryDto) {
     try {
       return await this.prismaService.category.create({ data: categoryDto });
     } catch (err) {
@@ -38,7 +38,7 @@ export class CategoriesService {
     }
   }
 
-  async updateCategory(id: string, categoryDto: UpdateCategoryDto) {
+  async update(id: string, categoryDto: UpdateCategoryDto) {
     try {
       parseInt(id)
     }catch (err){
@@ -54,7 +54,7 @@ export class CategoriesService {
     }
   }
 
-  async deleteCategory(id: string) {
+  async delete(id: string) {
     try {
       parseInt(id)
     }catch (err){

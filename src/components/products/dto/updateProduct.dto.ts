@@ -1,20 +1,23 @@
-import { IsDecimal, IsInt, IsNotEmpty, IsOptional, IsString, IsUrl, ValidateNested } from 'class-validator';
+import { ArrayNotEmpty, IsArray, IsDecimal, IsInt, IsOptional, IsString, IsUrl, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
+import { ImageDto } from './image.dto';
 
 export class UpdateProductDto {
   @IsOptional()
   @IsString()
   name: string;
   @IsOptional()
-  @IsString()
-  categoryId: string;
+  @IsInt()
+  categoryId: number;
   @IsOptional()
   @IsInt()
-  stock: string;
+  stock: number;
   @IsOptional()
   @IsDecimal()
   price: number;
   @IsOptional()
+  @IsArray()
+  @ArrayNotEmpty()
   @ValidateNested({ each: true })
   @Type(() => ImageDto)
   images: ImageDto[];
@@ -26,11 +29,6 @@ export class UpdateProductDto {
   manufacturerId: string;
 }
 
-class ImageDto {
-  @IsOptional()
-  @IsUrl()
-  url: string;
-}
 
 /*
   NOTE: todo// there should be a route products/:id/images - METHOD: POST || DELETE

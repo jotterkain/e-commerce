@@ -9,7 +9,7 @@ export class AddressesService {
   constructor(private prismaService: PrismaService) {
   }
 
-  async getAddresses() {
+  async finAll() {
     try {
       return await this.prismaService.address.findMany();
     } catch (err) {
@@ -17,7 +17,7 @@ export class AddressesService {
     }
   }
 
-  async getAddress(id: string) {
+  async findOne(id: string) {
     try {
       return await this.prismaService.address.findUnique({
         where: {
@@ -29,7 +29,7 @@ export class AddressesService {
     }
   }
 
-  async createAddress(addressDto: CreateAddressDto) {
+  async create(addressDto: CreateAddressDto) {
     if ( !(addressDto.neighborhood?.trim() || addressDto.postalCode?.trim()) ) {
       throw new BadRequestException('Both neighborhood and PostalCode can\'t be empty.');
     }
@@ -40,7 +40,7 @@ export class AddressesService {
     }
   }
 
-  async updateAddress(id: string, addressDto: UpdateAddressDto) {
+  async update(id: string, addressDto: UpdateAddressDto) {
     try {
       return await this.prismaService.address.update({
         where: {
@@ -53,7 +53,7 @@ export class AddressesService {
     }
   }
 
-  async deleteAddress(id: string) {
+  async delete(id: string) {
     try {
       return await this.prismaService.address.delete({
         where: {

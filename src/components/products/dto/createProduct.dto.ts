@@ -4,12 +4,11 @@ import {
   IsDecimal,
   IsInt,
   IsNotEmpty,
-  IsOptional,
   IsString,
-  IsUrl,
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
+import { ImageDto } from './image.dto';
 
 export class CreateProductDto {
   @IsNotEmpty()
@@ -20,7 +19,7 @@ export class CreateProductDto {
   categoryId: string
   @IsNotEmpty()
   @IsInt()
-  stock: string
+  stock: number
   @IsNotEmpty()
   @IsDecimal()
   price: number
@@ -35,10 +34,4 @@ export class CreateProductDto {
   @IsNotEmpty()
   @IsString()
   manufacturerId: string
-}
-
-class ImageDto {
-  @IsOptional()
-  @IsUrl()
-  url: string
 }

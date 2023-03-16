@@ -55,6 +55,7 @@ model Card {
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
   customers      Customer[]
+  Order          Order[]
 }
 
 model Category {
@@ -95,6 +96,8 @@ model Order {
   customer        Customer    @relation(fields: [customerId], references: [id])
   customerId      String
   deliveryAddress Address     @relation(fields: [addressId], references: [id])
+  paidWith        Card        @relation(fields: [cardId], references: [id])
+  cardId          String      @db.Uuid
   addressId       String      @db.Uuid
   delivered       Boolean     @default(false)
   createdAt       DateTime    @default(now())
@@ -104,7 +107,7 @@ model Order {
 model OrderItem {
   id        String  @id @default(uuid()) @db.Uuid
   product   Product @relation(fields: [productId], references: [id])
-  quanity   Int
+  quantity  Int
   Order     Order?  @relation(fields: [orderId], references: [id])
   orderId   String? @db.Uuid
   productId String  @db.Uuid

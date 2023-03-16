@@ -8,7 +8,7 @@ export class CustomersService {
   constructor(private prismaService: PrismaService) {
   }
 
-  async getCustomers() {
+  async findAll() {
     try {
       return await this.prismaService.customer.findMany();
     } catch (err) {
@@ -16,7 +16,7 @@ export class CustomersService {
     }
   }
 
-  async getCustomer(id: string) {
+  async findOne(id: string) {
     try {
       return await this.prismaService.customer.findUnique({
         where: {
@@ -28,7 +28,7 @@ export class CustomersService {
     }
   }
 
-  async createCustomer(customerDto: CreateCustomerDto) {
+  async create(customerDto: CreateCustomerDto) {
     try {
       return await this.prismaService.customer.create({
         data: customerDto,
@@ -38,7 +38,7 @@ export class CustomersService {
     }
   }
 
-  async updateCustomer(id: string, customerDto: UpdateCustomerDto) {
+  async update(id: string, customerDto: UpdateCustomerDto) {
     try {
       return await this.prismaService.customer.update({
         where: {
@@ -51,7 +51,7 @@ export class CustomersService {
     }
   }
 
-  async deleteCustomer(id: string) {
+  async delete(id: string) {
     try {
       return await this.prismaService.customer.update({
         where: {

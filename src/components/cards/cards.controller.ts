@@ -8,28 +8,28 @@ export class CardsController {
   }
 
   @Get()
-  getCards() {
-    return this.cardService.getCards();
+  findAll() {
+    return this.cardService.findAll();
   }
 
   @Get(':id')
-  getCard(@Param('id') id: string) {
-    return this.cardService.getCard(id);
+  findOne(@Param('id') id: string) {
+    return this.cardService.findOne(id);
   }
 
   @Post()
-  createCard(@Body() cardDto: CreateCardDto) {
-    return this.cardService.createCard(cardDto);
+  create(@Body() cardDto: CreateCardDto) {
+    return this.cardService.create(cardDto);
   }
 
   @Put(':id')
-  updateCard(@Param('id') id: string, @Body() cardDto: UpdateCardDto) {
-    return this.cardService.updateCard(id, cardDto);
+  update(@Param('id') id: string, @Body() cardDto: UpdateCardDto) {
+    return this.cardService.update(id, cardDto);
   }
 
   @Delete(':id')
-  deleteCard(@Param('id') id: string) {
-    return this.cardService.deleteCard(id);
+  delete(@Param('id') id: string) {
+    return this.cardService.delete(id);
   }
 
 }

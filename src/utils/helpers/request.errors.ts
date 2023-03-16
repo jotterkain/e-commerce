@@ -21,7 +21,7 @@ export function requestErrorThrow(error) {
       case "P5011":
         throw new BadRequestException('Validation error: Invalid type passed');
       case "P2023":
-        throw new BadRequestException('Validation error: Invalid value passed');
+        throw new BadRequestException('Validation error: Invalid value passed in request');
       default:
         console.error(error);
         throw new InternalServerErrorException('Something went wrong on the server');

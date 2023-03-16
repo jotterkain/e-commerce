@@ -9,7 +9,7 @@ export class CardsService {
   constructor(private prismaService: PrismaService, private securityService: SecurityService) {
   }
 
-  async createCard(cardDto: CreateCardDto) {
+  async create(cardDto: CreateCardDto) {
     const [ownerName, cardNumber, cvv] = await Promise.all([
       this.securityService.encrypt(cardDto.ownerName),
       this.securityService.encrypt(cardDto.cardNumber),
@@ -28,7 +28,7 @@ export class CardsService {
     }
   }
 
-  async getCards() {
+  async findAll() {
     try {
       const encryptedCards = await this.prismaService.card.findMany();
       return await Promise.all(encryptedCards.map(async (card) => {
@@ -47,7 +47,7 @@ export class CardsService {
     }
   }
 
-  async getCard(id: string) {
+  async findOne(id: string) {
     try {
       return await this.prismaService.card.findUnique({
         where: {
@@ -72,7 +72,7 @@ export class CardsService {
     }
   }
 
-  async updateCard(id: string, cardDto: UpdateCardDto) {
+  async update(id: string, cardDto: UpdateCardDto) {
     try {
       await this.prismaService.card.update({
         where: { id },
@@ -83,18 +83,18 @@ export class CardsService {
           cvv: this.securityService.encryptOr(cardDto.cvv),
         },
       });
-      return await this.getCard(id);
+      return await this.findOne(id);
     } catch (err) {
       requestErrorThrow(err);
     }
   }
 
-  async deleteCard(id: string) {
+  async delete(id: string) {
     try {
       await this.prismaService.card.delete({
         where: { id },
       });
-      return await this.getCard(id);
+      return await this.findOne(id);
     } catch (err) {
       requestErrorThrow(err);
     }

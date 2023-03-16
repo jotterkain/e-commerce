@@ -15,7 +15,7 @@ export class CreateAddressDto {
   @IsString()
   street: string;
   @IsOptional()
-  @IsPostalCode()
+  @IsPostalCode("US")
   postalCode: string;
   @IsOptional()
   @IsString()
