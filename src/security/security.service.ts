@@ -5,13 +5,14 @@ import { promisify } from 'util';
 
 @Injectable()
 export class SecurityService {
-  private readonly iv = randomBytes(16);
+  private iv: Buffer;
   private key: Buffer;
 
   constructor(private readonly config: ConfigService) {
     (async () => {
       try {
         const password = this.config.get<string>('ENCRYPT_PASSWORD');
+        this.iv = Buffer.from(this.config.get<String>('ENCRYPT_IV'), 'base64');
         this.key = await promisify(scrypt)(password, 'salt', 32) as Buffer;
       } catch (err) {
         console.error(err);

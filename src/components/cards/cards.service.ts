@@ -54,6 +54,9 @@ export class CardsService {
           id,
         },
       }).then(async (card) => {
+        if (!card) {
+          return null;
+        }
         return {
           id: card.id,
           ownerName: this.securityService.decrypt(card.ownerName),
@@ -70,19 +73,17 @@ export class CardsService {
   }
 
   async updateCard(id: string, cardDto: UpdateCardDto) {
-    const { ownerName, cardNumber, expirationDate, cvv } = cardDto;
     try {
-      return await this.prismaService.card.update({
+      await this.prismaService.card.update({
         where: { id },
         data: {
-          ownerName: this.securityService.encryptOr(ownerName),
-          cardNumber: this.securityService.encryptOr(cardNumber),
-          expirationDate: expirationDate,
-          cvv: this.securityService.encryptOr(cvv),
+          ownerName: this.securityService.encryptOr(cardDto.ownerName),
+          cardNumber: this.securityService.encryptOr(cardDto.cardNumber),
+          expirationDate: cardDto.expirationDate,
+          cvv: this.securityService.encryptOr(cardDto.cvv),
         },
-      }).then(() => {
-        return this.getCard(id);
       });
+      return await this.getCard(id);
     } catch (err) {
       requestErrorThrow(err);
     }
@@ -90,11 +91,10 @@ export class CardsService {
 
   async deleteCard(id: string) {
     try {
-      return await this.prismaService.card.delete({
+      await this.prismaService.card.delete({
         where: { id },
-      }).then(() => {
-        return this.getCard(id);
       });
+      return await this.getCard(id);
     } catch (err) {
       requestErrorThrow(err);
     }

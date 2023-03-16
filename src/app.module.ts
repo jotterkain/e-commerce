@@ -11,9 +11,7 @@ import { OrdersModule } from './components/orders/orders.module';
 import { CommandsModule } from './components/commands/commands.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
-import { CartItemsModule } from './components/cart-items/cart-items.module';
 import { CardsModule } from './components/cards/cards.module';
-import { CartsModule } from './components/carts/carts.module';
 import { SecurityModule } from './security/security.module';
 
 @Module({
@@ -31,9 +29,7 @@ import { SecurityModule } from './security/security.module';
     OrdersModule,
     CommandsModule,
     PrismaModule,
-    CartItemsModule,
     CardsModule,
-    CartsModule,
     SecurityModule],
   controllers: [],
   providers: [AppService],
