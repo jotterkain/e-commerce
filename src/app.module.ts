@@ -1,16 +1,16 @@
 import { Module } from '@nestjs/common';
 import { AppService } from './app.service';
-import { CustomersModule } from './components/customers/customers.module';
-import { AddressesModule } from './components/addresses/addresses.module';
-import { CategoriesModule } from './components/categories/categories.module';
-import { ProductsModule } from './components/products/products.module';
-import { ManufacturersModule } from './components/manufacturers/manufacturers.module';
-import { SpecialOffersModule } from './components/special-offers/special-offers.module';
-import { SuppliersModule } from './components/suppliers/suppliers.module';
-import { OrdersModule } from './components/orders/orders.module';
+import { CustomersModule } from './modules/customers/customers.module';
+import { AddressesModule } from './modules/addresses/addresses.module';
+import { CategoriesModule } from './modules/categories/categories.module';
+import { ProductsModule } from './modules/products/products.module';
+import { ManufacturersModule } from './modules/manufacturers/manufacturers.module';
+import { SpecialOffersModule } from './modules/special-offers/special-offers.module';
+import { SuppliersModule } from './modules/suppliers/suppliers.module';
+import { OrdersModule } from './modules/orders/orders.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
-import { CardsModule } from './components/cards/cards.module';
+import { CardsModule } from './modules/cards/cards.module';
 import { SecurityModule } from './security/security.module';
 
 @Module({

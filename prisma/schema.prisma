@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Customer {
-  id          String    @id
+  id          String    @id @default(uuid()) @db.Uuid
   firstName   String
   lastName    String?
   email       String    @unique
@@ -19,7 +19,7 @@ model Customer {
   dateOfBirth String
   hibernated  Boolean   @default(false)
   savedCards  Card[]
-  favoritess  Product[] @relation(name: "FavoriteItems")
+  favorites   Product[] @relation(name: "FavoriteItems")
   wishList    Product[] @relation(name: "WishList")
   orders      Order[]
   createdAt   DateTime  @default(now())
@@ -39,7 +39,7 @@ model Address {
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
   customer     Customer?  @relation(fields: [customerId], references: [id])
-  customerId   String?    @unique
+  customerId   String?    @unique @db.Uuid
   Supplier     Supplier[]
   Order        Order[]
 }
@@ -94,7 +94,7 @@ model Order {
   id              String      @id @default(uuid()) @db.Uuid
   items           OrderItem[]
   customer        Customer    @relation(fields: [customerId], references: [id])
-  customerId      String
+  customerId      String      @db.Uuid
   deliveryAddress Address     @relation(fields: [addressId], references: [id])
   paidWith        Card        @relation(fields: [cardId], references: [id])
   cardId          String      @db.Uuid
