@@ -28,8 +28,3 @@ export class UpdateProductDto {
   @IsString()
   manufacturerId: string;
 }
-
-
-/*
-  NOTE: todo// there should be a route products/:id/images - METHOD: POST || DELETE
-*/

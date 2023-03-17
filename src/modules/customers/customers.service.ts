@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
-import { CreateCustomerDto, FavDto, UpdateCustomerDto } from './dto';
+import { CreateCustomerDto, CardDto, FavDto, UpdateCustomerDto, WishDto } from './dto';
 import { requestErrorThrow } from '../../utils/helpers/request.errors';
 import { Customer } from '@prisma/client';
-import { WishDto } from './dto/wish.dto';
 
 @Injectable()
 export class CustomersService {
@@ -172,6 +171,60 @@ export class CustomersService {
             select: {
               id: true,
               name: true,
+            },
+          },
+        },
+      });
+    } catch (err) {
+      requestErrorThrow(err);
+    }
+  }
+
+  async addCard({ id, cardId }: CardDto) {
+    try {
+      return await this.prismaService.customer.update({
+        where: { id },
+        data: {
+          savedCards: {
+            connect: {
+              id: cardId,
+            },
+          },
+        },
+        select: {
+          id: true,
+          firstName: true,
+          savedCards: {
+            select: {
+              id: true,
+              ownerName: true,
+            },
+          },
+        },
+      });
+    } catch (err) {
+      requestErrorThrow(err);
+    }
+  }
+
+  async removeCard({ id, cardId }: CardDto) {
+    try {
+      return await this.prismaService.customer.update({
+        where: { id },
+        data: {
+          savedCards: {
+            disconnect: {
+              id: cardId,
+            },
+          },
+        },
+        select: {
+          id: true,
+          firstName: true,
+          savedCards: {
+            select: {
+              id: true,
+              ownerName: true,
             },
           },
         },

@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { requestErrorThrow } from '../../utils/helpers/request.errors';
 import { CreateCategoryDto } from './dto';
@@ -18,14 +18,9 @@ export class CategoriesService {
     }
   }
 
-  async findOne(id: string): Promise<Category> {
+  async findOne(id: number): Promise<Category> {
     try {
-      parseInt(id);
-    } catch (err) {
-      throw new BadRequestException('Validation error: invalid value passed');
-    }
-    try {
-      return await this.prismaService.category.findUnique({ where: { id: parseInt(id) } });
+      return await this.prismaService.category.findUnique({ where: { id: id } });
     } catch (err) {
       requestErrorThrow(err);
     }
@@ -39,15 +34,10 @@ export class CategoriesService {
     }
   }
 
-  async update(id: string, categoryDto: UpdateCategoryDto): Promise<Category> {
-    try {
-      parseInt(id);
-    } catch (err) {
-      throw new BadRequestException('Validation error: invalid value passed');
-    }
+  async update(id: number, categoryDto: UpdateCategoryDto): Promise<Category> {
     try {
       return await this.prismaService.category.update({
-        where: { id: parseInt(id) },
+        where: { id: id },
         data: categoryDto,
       });
     } catch (err) {
@@ -55,14 +45,9 @@ export class CategoriesService {
     }
   }
 
-  async delete(id: string): Promise<Category> {
+  async delete(id: number): Promise<Category> {
     try {
-      parseInt(id);
-    } catch (err) {
-      throw new BadRequestException('Validation error: invalid value passed');
-    }
-    try {
-      return await this.prismaService.category.findUnique({ where: { id: parseInt(id) } });
+      return await this.prismaService.category.findUnique({ where: { id: id } });
     } catch (err) {
       requestErrorThrow(err);
     }

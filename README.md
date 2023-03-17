@@ -1,17 +1,27 @@
-# E-COMMERCE API
+# E-COMMERCE
 
-## Full e-commerce API
+## Full API Service built using NestJS
 
-### Included
- - Customers
-   - WishingList
-   - Favorites
- - Products
-   - stocks
-   - Suppliers
-   - Manufacturers
- - Categories
- - Purchases
- - Carts
- - Address
- 
+### Endpoints
+
+- Customers
+- Products
+- Cards
+- Carts
+- Special-offers
+- Delivery monitoring
+- Category
+
+
+
+
+
+
+
+
+
+
+
+
+
+

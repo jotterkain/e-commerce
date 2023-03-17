@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto';
 import { UpdateCategoryDto } from './dto/updateCategory.dto';
@@ -15,7 +15,7 @@ export class CategoriesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<Category> {
+  findOne(@Param('id',ParseIntPipe) id: number): Promise<Category> {
     return this.categoriesService.findOne(id);
   }
 
@@ -25,12 +25,12 @@ export class CategoriesController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() categoryDto: UpdateCategoryDto): Promise<Category> {
+  update(@Param('id',ParseIntPipe) id: number, @Body() categoryDto: UpdateCategoryDto): Promise<Category> {
     return this.categoriesService.update(id, categoryDto);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string): Promise<Category> {
+  delete(@Param('id',ParseIntPipe) id: number): Promise<Category> {
     return this.categoriesService.delete(id);
   }
 }

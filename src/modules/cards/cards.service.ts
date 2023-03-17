@@ -73,8 +73,6 @@ export class CardsService {
     }
   }
 
-//todo: connect users
-
   async delete(id: string): Promise<Card> {
     try {
       await this.prismaService.card.delete({
