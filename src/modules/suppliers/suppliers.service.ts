@@ -20,9 +20,7 @@ export class SuppliersService {
   async findOne(id: string): Promise<Supplier> {
     try {
       return await this.prismaService.supplier.findUnique({
-        where: {
-          id,
-        },
+        where: { id },
       });
     } catch (err) {
       requestErrorThrow(err);
@@ -32,7 +30,14 @@ export class SuppliersService {
   async create(supplierDto: CreateSupplierDto): Promise<Supplier> {
     try {
       return await this.prismaService.supplier.create({
-        data: supplierDto,
+        data: {
+          name: supplierDto.name,
+          email: supplierDto.email,
+          phoneNumber: supplierDto.phoneNumber,
+          address: {
+            create: supplierDto.address,
+          },
+        },
       });
     } catch (err) {
       requestErrorThrow(err);
@@ -42,10 +47,18 @@ export class SuppliersService {
   async update(id: string, supplierDto: UpdateSupplierDto): Promise<Supplier> {
     try {
       return await this.prismaService.supplier.update({
-        where: {
-          id,
+        where: { id },
+        data: {
+          name: supplierDto.name,
+          email: supplierDto.email,
+          phoneNumber: supplierDto.phoneNumber,
+          address: {
+            upsert: {
+              create: supplierDto.address,
+              update: supplierDto.address,
+            },
+          },
         },
-        data: supplierDto,
       });
     } catch (err) {
       requestErrorThrow(err);
@@ -55,9 +68,7 @@ export class SuppliersService {
   async delete(id: string): Promise<Supplier> {
     try {
       return await this.prismaService.supplier.delete({
-        where: {
-          id,
-        },
+        where: { id },
       });
     } catch (err) {
       requestErrorThrow(err);

@@ -1,4 +1,5 @@
 import { IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber, IsString, IsUUID } from 'class-validator';
+import { UpdateAddressDto } from '../../addresses/dto';
 
 export class UpdateSupplierDto {
   @IsOptional()
@@ -11,6 +12,5 @@ export class UpdateSupplierDto {
   @IsPhoneNumber()
   phoneNumber: string
   @IsOptional()
-  @IsUUID()
-  addressId: string
+  address: UpdateAddressDto
 }

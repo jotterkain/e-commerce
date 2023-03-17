@@ -1,4 +1,5 @@
 import { IsDateString, IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber, IsString } from 'class-validator';
+import { CreateAddressDto } from '../../addresses/dto';
 
 export class CreateCustomerDto {
   @IsNotEmpty()
@@ -14,4 +15,6 @@ export class CreateCustomerDto {
   phoneNumber: string;
   @IsDateString()
   dateOfBirth: string;
+  @IsOptional()
+  address: CreateAddressDto
 }

@@ -1,4 +1,5 @@
 import { IsEmail, IsNotEmpty, IsPhoneNumber, IsString, IsUUID } from 'class-validator';
+import { CreateAddressDto } from '../../addresses/dto';
 
 export class CreateSupplierDto {
   @IsNotEmpty()
@@ -9,6 +10,5 @@ export class CreateSupplierDto {
   @IsPhoneNumber()
   phoneNumber: string
   @IsNotEmpty()
-  @IsUUID()
-  addressId: string
+  address: CreateAddressDto
 }

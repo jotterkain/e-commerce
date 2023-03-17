@@ -46,7 +46,16 @@ export class CustomersService {
   async create(customerDto: CreateCustomerDto): Promise<Customer> {
     try {
       return await this.prismaService.customer.create({
-        data: customerDto,
+        data: {
+          firstName: customerDto.firstName,
+          lastName: customerDto.lastName,
+          email: customerDto.email,
+          phoneNumber: customerDto.phoneNumber,
+          dateOfBirth: customerDto.dateOfBirth,
+          address: {
+            create: customerDto.address,
+          },
+        },
       });
     } catch (err) {
       requestErrorThrow(err);
@@ -57,7 +66,19 @@ export class CustomersService {
     try {
       return await this.prismaService.customer.update({
         where: { id },
-        data: customerDto,
+        data: {
+          firstName: customerDto.firstName,
+          lastName: customerDto.lastName,
+          email: customerDto.email,
+          phoneNumber: customerDto.phoneNumber,
+          dateOfBirth: customerDto.dateOfBirth,
+          address: {
+            upsert: {
+              create: customerDto.address,
+              update: customerDto.address
+            }
+          }
+        }
       });
     } catch (err) {
       requestErrorThrow(err);

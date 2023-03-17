@@ -24,7 +24,7 @@ model Customer {
   orders      Order[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  Address     Address?
+  address     Address?
 }
 
 model Address {
@@ -33,15 +33,15 @@ model Address {
   state        String
   city         String
   street       String?
-  postalCode   String?
+  postalCode   String?    @unique
   neighborhood String?
   buildingName String? // building known as
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
   customer     Customer?  @relation(fields: [customerId], references: [id])
   customerId   String?    @unique @db.Uuid
-  Supplier     Supplier[]
-  Order        Order[]
+  suppliers    Supplier[]
+  orders       Order[]
 }
 
 // we will use an external service to save the full
@@ -55,7 +55,7 @@ model Card {
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
   customers      Customer[]
-  Order          Order[]
+  orders         Order[]
 }
 
 model Category {
