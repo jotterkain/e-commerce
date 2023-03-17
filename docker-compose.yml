@@ -1,7 +1,18 @@
 version: '3.8'
 services:
+  app:
+    container_name: ecommerce_app
+    image: node:14-alpine
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      db-dev:
+        condition: service_healthy
   db-dev:
-    container_name: ecommerce
+    container_name: ecommerce_db
     image: postgres:15.0-alpine
     ports:
       - "5434:5432"
@@ -9,7 +20,13 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 123
       POSTGRES_DB: ecommerce
-    networks:
-      - db
-networks:
+    volumes:
+      - db:/data/postgres
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER}" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+volumes:
   db:
