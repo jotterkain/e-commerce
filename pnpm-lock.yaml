@@ -18,6 +18,8 @@ specifiers:
   class-transformer: ^0.5.1
   class-validator: ^0.14.0
   jest: 29.3.1
+  nest: ^0.1.6
+  nestjs: ^0.0.1
   prisma: ^4.11.0
   reflect-metadata: ^0.1.13
   rxjs: ^7.2.0
@@ -37,6 +39,8 @@ dependencies:
   '@prisma/client': 4.11.0_prisma@4.11.0
   class-transformer: 0.5.1
   class-validator: 0.14.0
+  nest: 0.1.6
+  nestjs: 0.0.1
   reflect-metadata: 0.1.13
   rxjs: 7.8.0
 
@@ -5146,6 +5150,14 @@ packages:
   /neo-async/2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
+
+  /nest/0.1.6:
+    resolution: {integrity: sha512-21378J/6pHB9EZMId5yz9DaxVj778pCHhzfXhRLLrLWZydpLgbsyxL5B5QyTSWJBk5L8XbiGgMvNZMb/qBySYg==}
+    dev: false
+
+  /nestjs/0.0.1:
+    resolution: {integrity: sha512-LJTf2zDRtWE69B6R2DUW6/LCftgVOq3kp3aqxPsB0eei8OX+lW2RFjzREZWRL1GUD/jGdBSMhM3Q5YWLC2uHNg==}
+    dev: false
 
   /next-tick/1.1.0:
     resolution: {integrity: sha512-CXdUiJembsNjuToQvxayPZF9Vqht7hewsvy2sOWafLvi2awflj9mOC6bHIg50orX8IJvWKY9wYQ/zB2kogPslQ==}

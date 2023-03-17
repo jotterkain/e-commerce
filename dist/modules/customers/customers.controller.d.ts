@@ -12,8 +12,8 @@ export declare class CustomersController {
     addProductToWishList(id: string, body: {
         productId: string;
     }): Promise<{
-        id: string;
         firstName: string;
+        id: string;
         wishList: {
             id: string;
             name: string;
@@ -22,15 +22,15 @@ export declare class CustomersController {
     removeProductFromWishList(id: string, body: {
         productId: string;
     }): Promise<{
-        id: string;
         firstName: string;
+        id: string;
         wishList: import("@prisma/client").Product[];
     }>;
     addProductToFavorites(id: string, body: {
         productId: string;
     }): Promise<{
-        id: string;
         firstName: string;
+        id: string;
         favorites: {
             id: string;
             name: string;
@@ -39,8 +39,8 @@ export declare class CustomersController {
     removeProductFromFavorites(id: string, body: {
         productId: string;
     }): Promise<{
-        id: string;
         firstName: string;
+        id: string;
         favorites: {
             id: string;
             name: string;
@@ -49,8 +49,8 @@ export declare class CustomersController {
     addCard(id: string, body: {
         cardId: string;
     }): Promise<{
-        id: string;
         firstName: string;
+        id: string;
         savedCards: {
             id: string;
             ownerName: string;
@@ -59,8 +59,8 @@ export declare class CustomersController {
     removeCard(id: string, body: {
         cardId: string;
     }): Promise<{
-        id: string;
         firstName: string;
+        id: string;
         savedCards: {
             id: string;
             ownerName: string;
