@@ -4,15 +4,16 @@
 
 ### Endpoints
 
-- Customers
-		- favorites
-		- wishlist
+- Customers 
+	- favorites products 
+    - wishlist 
 - Products
 - Cards
 - Carts
 - Special-offers
 - Delivery monitoring
 - Category
+- Orders 
 
 
 
