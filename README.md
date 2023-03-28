@@ -5,6 +5,8 @@
 ### Endpoints
 
 - Customers
+		- favorites
+		- wishlist
 - Products
 - Cards
 - Carts
