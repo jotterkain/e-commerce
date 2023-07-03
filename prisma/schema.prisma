@@ -1,0 +1,130 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String    @id @default(uuid()) @db.Uuid
+  username   String    @unique
+  first_name String?
+  last_name  String?
+  phone      String
+  email      String?
+  hash       String
+  wishes     Product[] @relation("wishes")
+  favorites  Product[] @relation("favorites")
+  addresses  Address[]
+  cards      Card[]
+  orders     Order[]
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+}
+
+model Address {
+  id         String   @id @default(uuid()) @db.Uuid
+  country    String
+  city       String
+  zip        String?
+  street     String
+  home_code  String?
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    String   @db.Uuid
+  orders     Order[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Product {
+  id          String          @id @default(uuid()) @db.Uuid
+  name        String
+  description String?
+  price       Decimal
+  hero        String?
+  images      String[]
+  wished_by   User[]          @relation("wishes")
+  favorite_of User[]          @relation("favorites")
+  options     ProductOption[]
+  order_items OrderItem[]
+  created_at  DateTime        @default(now())
+  updated_at  DateTime        @updatedAt
+}
+
+model ProductOption {
+  id          String      @id @default(uuid()) @db.Uuid
+  option      String
+  label       String
+  description String?
+  price       Decimal
+  product     Product     @relation(fields: [product_id], references: [id])
+  product_id  String      @db.Uuid
+  items       OrderItem[] @ignore
+  created_at  DateTime    @default(now())
+  updated_at  DateTime    @updatedAt
+
+  @@unique([product_id, option])
+  @@unique([product_id, option, label])
+}
+
+model Category {
+  id          Int        @id @default(autoincrement())
+  name        String
+  description String?
+  parent      Category?  @relation("parent_category", fields: [parent_id], references: [id])
+  parent_id   Int?
+  children    Category[] @relation("parent_category")
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @updatedAt
+}
+
+model Card {
+  id         String   @id @default(uuid()) @db.Uuid
+  name       String
+  num        String
+  cvv        String
+  exp        DateTime
+  owner      User     @relation(fields: [user_id], references: [id])
+  user_id    String   @db.Uuid
+  orders     Order[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Order {
+  id          String      @id @default(uuid()) @db.Uuid
+  user        User        @relation(fields: [user_id], references: [id])
+  user_id     String      @db.Uuid
+  order_items OrderItem[]
+  status      OrderStatus
+  card        Card        @relation(fields: [card_id], references: [id])
+  card_id     String      @db.Uuid
+  address     Address     @relation(fields: [address_id], references: [id])
+  address_id  String      @db.Uuid
+  created_at  DateTime    @default(now())
+  updated_at  DateTime    @updatedAt
+}
+
+model OrderItem {
+  id         String          @id @default(uuid()) @db.Uuid
+  product    Product         @relation(fields: [product_id], references: [id])
+  quantity   Int
+  options    ProductOption[]
+  product_id String          @db.Uuid
+  order      Order           @relation(fields: [order_id], references: [id])
+  order_id   String          @db.Uuid
+  created_at DateTime        @default(now())
+  updated_at DateTime        @updatedAt
+}
+
+enum OrderStatus {
+  PENGING
+  PROCESSING
+  ARRIVING
+  DELIVERED
+}
