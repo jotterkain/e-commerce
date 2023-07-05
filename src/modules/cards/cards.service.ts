@@ -1,4 +1,4 @@
-import { NewCardDto } from '@core/core/dto';
+import { NewCardDto } from '@eshop/core/dto';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 

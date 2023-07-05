@@ -1,21 +1,22 @@
-import { IsNotEmpty, IsOptional, IsString, IsUUID } from "class-validator"
-export class NewAddressDto {
-    @IsNotEmpty()
+import { IsOptional, IsString, IsUUID } from "class-validator"
+
+export class QueryAddressDto {
+    @IsOptional()
     @IsString()
     country: string
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     city: string
     @IsOptional()
     @IsString()
     zip: string
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     street: string
     @IsOptional()
     @IsString()
     home_code: string
-    @IsNotEmpty()
+    @IsOptional()
     @IsUUID()
     user_id: string
 }

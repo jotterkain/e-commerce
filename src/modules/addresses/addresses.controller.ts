@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post, Put, Query } from '@nestjs/common';
 import { AddressesService } from './addresses.service';
-import { NewAddressDto } from '@core/core/dto';
+import { NewAddressDto, UpdateAddressDto } from '@eshop/core/dto';
 
 @Controller('addresses')
 export class AddressesController {
@@ -22,7 +22,7 @@ export class AddressesController {
     }
 
     @Put(":id")
-    update(@Param("id", ParseUUIDPipe) id: string, @Body() dto: NewAddressDto) {
+    update(@Param("id", ParseUUIDPipe) id: string, @Body() dto: UpdateAddressDto) {
         return this.addressesService.update(id, dto)
     }
 

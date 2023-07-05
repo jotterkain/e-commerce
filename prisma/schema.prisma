@@ -15,13 +15,13 @@ model User {
   username   String    @unique
   first_name String?
   last_name  String?
-  phone      String
-  email      String?
+  phone      String    @unique
+  email      String?   @unique
   hash       String
   wishes     Product[] @relation("wishes")
   favorites  Product[] @relation("favorites")
   addresses  Address[]
-  cards      Card[]
+  cards      Card[]    @relation("users_card")
   orders     Order[]
   created_at DateTime  @default(now())
   updated_at DateTime  @updatedAt
@@ -36,24 +36,28 @@ model Address {
   home_code  String?
   user       User     @relation(fields: [user_id], references: [id])
   user_id    String   @db.Uuid
-  orders     Order[]
+  orders     Order[]  @ignore
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+
+  @@unique([id, user_id])
 }
 
 model Product {
-  id          String          @id @default(uuid()) @db.Uuid
-  name        String
-  description String?
-  price       Decimal
-  hero        String?
-  images      String[]
-  wished_by   User[]          @relation("wishes")
-  favorite_of User[]          @relation("favorites")
-  options     ProductOption[]
-  order_items OrderItem[]
-  created_at  DateTime        @default(now())
-  updated_at  DateTime        @updatedAt
+  id            String          @id @default(uuid()) @db.Uuid
+  name          String
+  description   String?
+  price         Decimal
+  category      Category        @relation(fields: [category_name], references: [name])
+  category_name String
+  hero          String?
+  images        String[]
+  wished_by     User[]          @relation("wishes")
+  favorite_of   User[]          @relation("favorites")
+  options       ProductOption[]
+  order_items   OrderItem[]     @ignore
+  created_at    DateTime        @default(now())
+  updated_at    DateTime        @updatedAt
 }
 
 model ProductOption {
@@ -74,13 +78,13 @@ model ProductOption {
 
 model Category {
   id          Int        @id @default(autoincrement())
-  name        String
+  name        String     @unique
   description String?
-  parent      Category?  @relation("parent_category", fields: [parent_id], references: [id])
-  parent_id   Int?
+  parent      Category[] @relation("parent_category")
   children    Category[] @relation("parent_category")
   created_at  DateTime   @default(now())
   updated_at  DateTime   @updatedAt
+  Product     Product[]
 }
 
 model Card {
@@ -89,8 +93,7 @@ model Card {
   num        String
   cvv        String
   exp        DateTime
-  owner      User     @relation(fields: [user_id], references: [id])
-  user_id    String   @db.Uuid
+  usedBy     User[]   @relation("users_card")
   orders     Order[]
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -101,9 +104,10 @@ model Order {
   user        User        @relation(fields: [user_id], references: [id])
   user_id     String      @db.Uuid
   order_items OrderItem[]
-  status      OrderStatus
+  status      OrderStatus @default(PENDING)
   card        Card        @relation(fields: [card_id], references: [id])
   card_id     String      @db.Uuid
+  total       Decimal
   address     Address     @relation(fields: [address_id], references: [id])
   address_id  String      @db.Uuid
   created_at  DateTime    @default(now())
@@ -118,13 +122,15 @@ model OrderItem {
   product_id String          @db.Uuid
   order      Order           @relation(fields: [order_id], references: [id])
   order_id   String          @db.Uuid
+  total      Decimal
   created_at DateTime        @default(now())
   updated_at DateTime        @updatedAt
 }
 
 enum OrderStatus {
-  PENGING
+  PENDING
   PROCESSING
   ARRIVING
   DELIVERED
+  CANCELLED
 }
