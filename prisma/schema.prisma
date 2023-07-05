@@ -11,20 +11,21 @@ datasource db {
 }
 
 model User {
-  id         String    @id @default(uuid()) @db.Uuid
-  username   String    @unique
-  first_name String?
-  last_name  String?
-  phone      String    @unique
-  email      String?   @unique
-  hash       String
-  wishes     Product[] @relation("wishes")
-  favorites  Product[] @relation("favorites")
-  addresses  Address[]
-  cards      Card[]    @relation("users_card")
-  orders     Order[]
-  created_at DateTime  @default(now())
-  updated_at DateTime  @updatedAt
+  id          String    @id @default(uuid()) @db.Uuid
+  username    String    @unique
+  first_name  String?
+  last_name   String?
+  phone       String    @unique
+  email       String?   @unique
+  hash        String
+  wishes      Product[] @relation("wishes")
+  favorites   Product[] @relation("favorites")
+  addresses   Address[]
+  cards       Card[]    @relation("users_card")
+  primaryCard Card[]    @relation("primary_cards")
+  orders      Order[]
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
 }
 
 model Address {
@@ -44,19 +45,19 @@ model Address {
 }
 
 model Product {
-  id            String          @id @default(uuid()) @db.Uuid
-  name          String
-  description   String?
-  price         Decimal
-  category      Category[] @relation("product_categories")
-  hero          String?
-  images        String[]
-  wished_by     User[]          @relation("wishes")
-  favorite_of   User[]          @relation("favorites")
-  options       ProductOption[]
-  order_items   OrderItem[]     @ignore
-  created_at    DateTime        @default(now())
-  updated_at    DateTime        @updatedAt
+  id          String          @id @default(uuid()) @db.Uuid
+  name        String
+  description String?
+  price       Decimal
+  category    Category[]      @relation("product_categories")
+  hero        String?
+  images      String[]
+  wished_by   User[]          @relation("wishes")
+  favorite_of User[]          @relation("favorites")
+  options     ProductOption[]
+  order_items OrderItem[]     @ignore
+  created_at  DateTime        @default(now())
+  updated_at  DateTime        @updatedAt
 }
 
 model ProductOption {
@@ -81,7 +82,7 @@ model Category {
   description String?
   parent      Category[] @relation("parent_category")
   children    Category[] @relation("parent_category")
-  products     Product[] @relation("product_categories")
+  products    Product[]  @relation("product_categories")
   created_at  DateTime   @default(now())
   updated_at  DateTime   @updatedAt
 }
@@ -94,6 +95,7 @@ model Card {
   exp        DateTime
   usedBy     User[]   @relation("users_card")
   orders     Order[]
+  primaryOf  User[]   @relation("primary_cards")
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }

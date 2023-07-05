@@ -4,3 +4,5 @@ TODO: Handle array push remove services dto (
     Product: images - categories - product options,
 )
 TODO: PUT users/usersId/phone|email
+
+TODO: Handle primary card

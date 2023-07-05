@@ -4,11 +4,25 @@ import { PrismaService } from 'src/prisma/prisma.service'
 
 @Injectable()
 export class AddressesService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(private prismaService: PrismaService) { }
 
-  async getOne(id: string) {}
-  async getMany(filter: any) {}
-  async create(dto: NewAddressDto) {}
-  async update(id: string, dto: UpdateAddressDto) {}
-  async deleteOne(id: string) {}
+  async getOne(id: string) {
+    return await this.prismaService.address.findUnique({ where: { id } })
+  }
+
+  async getMany(filter: any) {
+    return await this.prismaService.address.findMany({ where: filter })
+  }
+
+  async create(dto: NewAddressDto) {
+    return await this.prismaService.address.create({ data: dto })
+  }
+
+  async update(id: string, dto: UpdateAddressDto) {
+    return await this.prismaService.address.update({ where: { id }, data: dto })
+  }
+
+  async deleteOne(id: string) {
+    return await this.prismaService.address.delete({ where: { id } })
+  }
 }

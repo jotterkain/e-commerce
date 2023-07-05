@@ -6,8 +6,16 @@ import { PrismaService } from 'src/prisma/prisma.service'
 export class CardsService {
   constructor(private prismaService: PrismaService) {}
 
-  async getOne(id: string) {}
-  async getMany(filter: any) {}
-  async deleteOne(id: string) {}
-  async create(dto: NewCardDto) {}
+  async getOne(id: string) {
+    return await this.prismaService.card.findUnique({where: {id}})
+  }
+  async getMany(filter: any) {
+    return await this.prismaService.card.findMany({where: filter})
+  }
+  async deleteOne(id: string) {
+    return await this.prismaService.card.delete({where: {id}})
+  }
+  async create(dto: NewCardDto) {
+    return await this.prismaService.card
+  }
 }
