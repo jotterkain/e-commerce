@@ -4,13 +4,13 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class OrdersService {
-    constructor(private prismaService: PrismaService) { }
+  constructor(private prismaService: PrismaService) {}
 
-    async create(dto: NewOrderDto) { }
+  async create(dto: NewOrderDto) {}
 
-    async update(id: string, dto: UpdateOrderDto) { }
+  async update(id: string, dto: UpdateOrderDto) {}
 
-    async getOne(id: string) { }
+  async getOne(id: string) {}
 
-    async getMany(filter: any) { }
+  async getMany(filter: any) {}
 }

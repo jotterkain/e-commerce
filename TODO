@@ -1,2 +1,6 @@
-Handle array push remove services dto
-PUT users/usersId/phone|email
+TODO: Handle array push remove services dto (
+    category: parent_ids,
+    Order: order_items,
+    Product: images - categories - product options,
+)
+TODO: PUT users/usersId/phone|email

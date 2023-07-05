@@ -48,8 +48,7 @@ model Product {
   name          String
   description   String?
   price         Decimal
-  category      Category        @relation(fields: [category_name], references: [name])
-  category_name String
+  category      Category[] @relation("product_categories")
   hero          String?
   images        String[]
   wished_by     User[]          @relation("wishes")
@@ -82,9 +81,9 @@ model Category {
   description String?
   parent      Category[] @relation("parent_category")
   children    Category[] @relation("parent_category")
+  products     Product[] @relation("product_categories")
   created_at  DateTime   @default(now())
   updated_at  DateTime   @updatedAt
-  Product     Product[]
 }
 
 model Card {

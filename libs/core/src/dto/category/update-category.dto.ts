@@ -1,10 +1,10 @@
-import { IsArray, IsOptional, IsString } from "class-validator"
+import { IsArray, IsOptional, IsString } from 'class-validator';
 
 export class UpdateCategoryDto {
-    @IsOptional()
-    @IsString()
-    name?: string
-    @IsOptional()
-    @IsString()
-    description?: string
- }
+  @IsOptional()
+  @IsString()
+  name?: string;
+  @IsOptional()
+  @IsString()
+  description?: string;
+}
