@@ -4,19 +4,19 @@ import {
   IsNumber,
   IsString,
   IsUUID,
-} from 'class-validator';
+} from 'class-validator'
 
 export class NewCardDto {
   @IsNotEmpty()
   @IsString()
-  name: string;
+  name: string
   @IsNotEmpty()
   @IsCreditCard()
-  num: string;
+  num: string
   @IsNotEmpty()
   @IsNumber()
-  cvv: number;
+  cvv: number
   @IsNotEmpty()
   @IsUUID()
-  owner_id: string;
+  owner_id: string
 }

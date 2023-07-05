@@ -8,9 +8,9 @@ import {
   Post,
   Put,
   Query,
-} from '@nestjs/common';
-import { ProductsService } from './products.service';
-import { NewProductDto, UpdateAddressDto } from '@eshop/core/dto';
+} from '@nestjs/common'
+import { ProductsService } from './products.service'
+import { NewProductDto, UpdateProductDto } from '@eshop/core/dto'
 
 @Controller('products')
 export class ProductsController {
@@ -18,29 +18,29 @@ export class ProductsController {
 
   @Get()
   getMany(@Query() filter: any) {
-    return this.productsService.getMany(filter);
+    return this.productsService.getMany(filter)
   }
 
   @Get(':id')
   getOne(@Param('id', ParseUUIDPipe) id: string) {
-    return this.productsService.getOne(id);
+    return this.productsService.getOne(id)
   }
 
   @Post()
   create(@Body() dto: NewProductDto) {
-    return this.productsService.create(dto);
+    return this.productsService.create(dto)
   }
 
   @Put(':id')
   update(
     @Param('id', ParseUUIDPipe) id: string,
-    @Body() dto: UpdateAddressDto,
+    @Body() dto: UpdateProductDto,
   ) {
-    return this.productsService.update(id, dto);
+    return this.productsService.update(id, dto)
   }
 
   @Delete('id')
   deleteOne(@Param('id', ParseUUIDPipe) id: string) {
-    return this.productsService.deleteOne(id);
+    return this.productsService.deleteOne(id)
   }
 }

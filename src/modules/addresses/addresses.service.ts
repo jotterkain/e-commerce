@@ -1,6 +1,6 @@
-import { NewAddressDto, UpdateAddressDto } from '@eshop/core/dto';
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { NewAddressDto, UpdateAddressDto } from '@eshop/core/dto'
+import { Injectable } from '@nestjs/common'
+import { PrismaService } from 'src/prisma/prisma.service'
 
 @Injectable()
 export class AddressesService {

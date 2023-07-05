@@ -1,16 +1,16 @@
-import { IsNotEmpty, IsString, IsOptional } from 'class-validator';
+import { IsNotEmpty, IsString, IsOptional } from 'class-validator'
 
 export class ProductOptionDto {
   @IsNotEmpty()
   @IsString()
-  option: string;
+  option: string
   @IsNotEmpty()
   @IsString()
-  label: string;
+  label: string
   @IsOptional()
   @IsString()
-  description?: string;
+  description?: string
   @IsNotEmpty()
   @IsString()
-  price: string;
+  price: string
 }

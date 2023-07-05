@@ -1,19 +1,19 @@
-import { IsArray, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsOptional, IsString } from 'class-validator'
 
 export class UpdateProductDto {
   @IsOptional()
   @IsString()
-  name?: string;
+  name?: string
   @IsOptional()
   @IsString()
-  description?: string;
+  description?: string
   @IsOptional()
   @IsString()
-  price?: string;
+  price?: string
   @IsOptional()
   @IsString()
-  hero?: string;
+  hero?: string
   @IsOptional()
   @IsArray()
-  images?: string[];
+  images?: string[]
 }

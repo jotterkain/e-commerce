@@ -1,13 +1,13 @@
-import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator'
 
 export class NewCategoryDto {
   @IsNotEmpty()
   @IsString()
-  name: string;
+  name: string
   @IsOptional()
   @IsString()
-  description?: string;
+  description?: string
   @IsNotEmpty()
   @IsArray()
-  parent_ids: string[];
+  parent_ids: string[]
 }

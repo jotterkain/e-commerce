@@ -4,29 +4,29 @@ import {
   IsOptional,
   IsString,
   IsUUID,
-} from 'class-validator';
-import { ProductOptionDto } from './product-option.dto';
+} from 'class-validator'
+import { ProductOptionDto } from './product-option.dto'
 
 export class NewProductDto {
   @IsNotEmpty()
   @IsString()
-  name: string;
+  name: string
   @IsOptional()
   @IsString()
-  description?: string;
+  description?: string
   @IsNotEmpty()
   @IsString()
-  price: string;
+  price: string
   @IsNotEmpty()
   @IsArray()
-  categories: number[];
+  categories: number[]
   @IsOptional()
   @IsString()
-  hero?: string;
+  hero?: string
   @IsNotEmpty()
   @IsArray()
-  images: string[];
+  images: string[]
   @IsNotEmpty()
   @IsArray()
-  options: ProductOptionDto[];
+  options: ProductOptionDto[]
 }

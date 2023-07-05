@@ -1,22 +1,22 @@
-import { IsOptional, IsString, IsUUID } from 'class-validator';
+import { IsOptional, IsString, IsUUID } from 'class-validator'
 
 export class QueryAddressDto {
   @IsOptional()
   @IsString()
-  country: string;
+  country: string
   @IsOptional()
   @IsString()
-  city: string;
+  city: string
   @IsOptional()
   @IsString()
-  zip: string;
+  zip: string
   @IsOptional()
   @IsString()
-  street: string;
+  street: string
   @IsOptional()
   @IsString()
-  home_code: string;
+  home_code: string
   @IsOptional()
   @IsUUID()
-  user_id: string;
+  user_id: string
 }

@@ -4,10 +4,10 @@ import {
   IsOptional,
   IsString,
   IsUUID,
-} from 'class-validator';
+} from 'class-validator'
 
 export class QueryCardDto {
   @IsOptional()
   @IsUUID()
-  owner_id: string;
+  owner_id: string
 }

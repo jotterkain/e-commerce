@@ -1,10 +1,10 @@
-import { IsNotEmpty, IsString, IsInt } from 'class-validator';
+import { IsNotEmpty, IsString, IsInt } from 'class-validator'
 
 export class OrderItemDto {
   @IsNotEmpty()
   @IsString()
-  product_id: string;
+  product_id: string
   @IsNotEmpty()
   @IsInt()
-  quantity: number;
+  quantity: number
 }
