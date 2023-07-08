@@ -1,9 +1,10 @@
 import {
   IsArray,
+  IsDecimal,
   IsNotEmpty,
   IsOptional,
+  IsPositive,
   IsString,
-  IsUUID,
 } from 'class-validator'
 import { ProductOptionDto } from './product-option.dto'
 
@@ -15,17 +16,16 @@ export class NewProductDto {
   @IsString()
   description?: string
   @IsNotEmpty()
-  @IsString()
+  @IsDecimal()
+  @IsPositive()
   price: string
   @IsNotEmpty()
   @IsArray()
   categories: number[]
   @IsOptional()
-  @IsString()
-  hero?: string
-  @IsNotEmpty()
-  @IsArray()
-  images: string[]
+  hero?: any
+  @IsOptional()
+  images: any
   @IsNotEmpty()
   @IsArray()
   options: ProductOptionDto[]

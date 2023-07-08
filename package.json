@@ -68,7 +68,8 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
-      "^@eshop/core(|/.*)$": "<rootDir>/libs/core/src/$1"
+      "^@eshop/core(|/.*)$": "<rootDir>/libs/core/src/$1",
+      "^@eshop/common(|/.*)$": "<rootDir>/libs/common/src/$1"
     }
   }
 }

@@ -1,12 +1,5 @@
+import { OrderStatus } from '@eshop/core'
 import { IsDecimal, IsEnum, IsOptional, IsString } from 'class-validator'
-
-enum OrderStatus {
-  PENDING = 'PENDING',
-  PROCESSING = 'PROCESSING',
-  ARRIVING = 'ARRIVING',
-  DELIVERED = 'DELIVERED',
-  CANCELLED = 'CANCELLED',
-}
 
 export class QueryOrderDto {
   @IsOptional()

@@ -12,6 +12,8 @@
   },
   "moduleNameMapper": {
     "@core/core/(.*)": "<rootDir>/../libs/core/src/$1",
-    "@core/core": "<rootDir>/../libs/core/src"
+    "@core/core": "<rootDir>/../libs/core/src",
+    "@eshop/common/(.*)": "<rootDir>/../libs/common/src/$1",
+    "@eshop/common": "<rootDir>/../libs/common/src"
   }
 }

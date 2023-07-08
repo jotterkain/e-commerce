@@ -23,6 +23,12 @@
       ],
       "@eshop/core/*": [
         "libs/core/src/*"
+      ],
+      "@eshop/common": [
+        "libs/common/src"
+      ],
+      "@eshop/common/*": [
+        "libs/common/src/*"
       ]
     }
   }
