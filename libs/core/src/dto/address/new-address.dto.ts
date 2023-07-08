@@ -15,7 +15,4 @@ export class NewAddressDto {
   @IsOptional()
   @IsString()
   home_code: string
-  @IsNotEmpty()
-  @IsUUID()
-  user_id: string
 }

@@ -9,7 +9,7 @@ import {
   Query,
 } from '@nestjs/common'
 import { CategoriesService } from './categories.service'
-import { NewCategoryDto, UpdateCategoryDto } from '@eshop/core/dto'
+import { NewCategoryDto, QueryCategoryDto, UpdateCategoryDto } from '@eshop/core'
 
 @Controller('categories')
 export class CategoriesController {
@@ -21,7 +21,7 @@ export class CategoriesController {
   }
 
   @Get()
-  getMany(@Query() filter: any) {
+  getMany(@Query() filter: QueryCategoryDto) {
     return this.categoriesService.getMany(filter)
   }
 

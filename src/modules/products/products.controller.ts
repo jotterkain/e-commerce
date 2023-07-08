@@ -10,14 +10,14 @@ import {
   Query,
 } from '@nestjs/common'
 import { ProductsService } from './products.service'
-import { NewProductDto, UpdateProductDto } from '@eshop/core/dto'
+import { NewProductDto, QueryProductDto, UpdateProductDto } from '@eshop/core'
 
 @Controller('products')
 export class ProductsController {
   constructor(private productsService: ProductsService) {}
 
   @Get()
-  getMany(@Query() filter: any) {
+  getMany(@Query() filter: QueryProductDto) {
     return this.productsService.getMany(filter)
   }
 

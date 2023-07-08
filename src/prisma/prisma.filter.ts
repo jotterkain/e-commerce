@@ -2,15 +2,17 @@ import {
   ArgumentsHost,
   Catch,
   ExceptionFilter,
-  HttpAdapterHost,
   Logger,
 } from '@nestjs/common'
+import { HttpArgumentsHost } from '@nestjs/common/interfaces'
+import { HttpAdapterHost } from '@nestjs/core'
 import { Prisma } from '@prisma/client'
 
 const defaultMessage = 'Something went wrong on the server: database operation'
 
 @Catch(Prisma.PrismaClientKnownRequestError)
 export class PrismaClientKnownExceptionFilter implements ExceptionFilter {
+
   constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
 
   catch(
@@ -19,13 +21,13 @@ export class PrismaClientKnownExceptionFilter implements ExceptionFilter {
   ): void {
     const { httpAdapter } = this.httpAdapterHost
 
-    const ctx = host.switchToHttp()
+    const ctx: HttpArgumentsHost = host.switchToHttp()
 
     let statusCode: number
     let message: string | undefined
-    const path: string = httpAdapter.getRequestUrl(ctx.getRequest())
-    const timestamp: string = new Date().toISOString()
+    // const path: string = httpAdapter.getRequestUrl(ctx.getRequest()) 
     const error = 'PrismaClientKnownRequestError'
+
     if (exception instanceof Prisma.PrismaClientKnownRequestError) {
       switch (exception.code) {
         case 'P1008':
@@ -70,8 +72,6 @@ export class PrismaClientKnownExceptionFilter implements ExceptionFilter {
     const responseBody = {
       statusCode: statusCode,
       message: message,
-      timestamp: timestamp,
-      path: path,
       error: error,
     }
 
@@ -81,6 +81,7 @@ export class PrismaClientKnownExceptionFilter implements ExceptionFilter {
 
 @Catch(Prisma.PrismaClientValidationError)
 export class PrismaClientValidationExceptionFilter implements ExceptionFilter {
+
   constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
 
   catch(
@@ -94,7 +95,6 @@ export class PrismaClientValidationExceptionFilter implements ExceptionFilter {
     let statusCode: number
     let message: string | undefined
     const path: string = httpAdapter.getRequestUrl(ctx.getRequest())
-    const timestamp: string = new Date().toISOString()
     const error = 'PrismaClientValidationError'
 
     if (exception instanceof Prisma.PrismaClientValidationError) {
@@ -110,8 +110,6 @@ export class PrismaClientValidationExceptionFilter implements ExceptionFilter {
     const responseBody = {
       statusCode: statusCode,
       message: message,
-      timestamp: timestamp,
-      path: path,
       error: error,
     }
 
@@ -121,6 +119,7 @@ export class PrismaClientValidationExceptionFilter implements ExceptionFilter {
 
 @Catch(Prisma.PrismaClientUnknownRequestError)
 export class PrismaClientUnknownExceptionFilter implements ExceptionFilter {
+
   constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
 
   catch(
@@ -134,7 +133,6 @@ export class PrismaClientUnknownExceptionFilter implements ExceptionFilter {
     let statusCode: number
     let message: string | undefined
     const path: string = httpAdapter.getRequestUrl(ctx.getRequest())
-    const timestamp: string = new Date().toISOString()
     const error = 'PrismaClientUnknownRequestError'
 
     message = defaultMessage
@@ -144,8 +142,6 @@ export class PrismaClientUnknownExceptionFilter implements ExceptionFilter {
     const responseBody = {
       statusCode: statusCode,
       message: message,
-      timestamp: timestamp,
-      path: path,
       error: error,
     }
 

@@ -9,7 +9,7 @@ import {
   Query,
 } from '@nestjs/common'
 import { CardsService } from './cards.service'
-import { NewCardDto } from '@eshop/core/dto'
+import { NewCardDto, QueryCardDto } from '@eshop/core'
 
 @Controller('cards')
 export class CardsController {
@@ -21,7 +21,7 @@ export class CardsController {
   }
 
   @Get()
-  getMany(@Query() filter: any) {
+  getMany(@Query() filter: QueryCardDto) {
     return this.cardsService.getMany(filter)
   }
 

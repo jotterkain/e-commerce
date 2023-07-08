@@ -18,6 +18,7 @@ model User {
   phone       String    @unique
   email       String?   @unique
   hash        String
+  role        Role      @default(CUSTOMER)
   wishes      Product[] @relation("wishes")
   favorites   Product[] @relation("favorites")
   addresses   Address[]
@@ -37,7 +38,7 @@ model Address {
   home_code  String?
   user       User     @relation(fields: [user_id], references: [id])
   user_id    String   @db.Uuid
-  orders     Order[]  @ignore
+  orders     Order[]
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
@@ -55,7 +56,7 @@ model Product {
   wished_by   User[]          @relation("wishes")
   favorite_of User[]          @relation("favorites")
   options     ProductOption[]
-  order_items OrderItem[]     @ignore
+  order_items OrderItem[]
   created_at  DateTime        @default(now())
   updated_at  DateTime        @updatedAt
 }
@@ -68,7 +69,7 @@ model ProductOption {
   price       Decimal
   product     Product     @relation(fields: [product_id], references: [id])
   product_id  String      @db.Uuid
-  items       OrderItem[] @ignore
+  items       OrderItem[]
   created_at  DateTime    @default(now())
   updated_at  DateTime    @updatedAt
 
@@ -134,4 +135,10 @@ enum OrderStatus {
   ARRIVING
   DELIVERED
   CANCELLED
+}
+
+enum Role {
+  CUSTOMER
+  EMPLOYEE
+  ADMIN
 }

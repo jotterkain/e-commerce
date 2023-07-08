@@ -16,7 +16,4 @@ export class NewCardDto {
   @IsNotEmpty()
   @IsNumber()
   cvv: number
-  @IsNotEmpty()
-  @IsUUID()
-  owner_id: string
 }

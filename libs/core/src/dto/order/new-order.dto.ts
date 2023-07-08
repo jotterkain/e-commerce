@@ -9,9 +9,6 @@ import { OrderItemDto } from './order-option.dto'
 
 export class NewOrderDto {
   @IsNotEmpty()
-  @IsString()
-  user_id: string
-  @IsNotEmpty()
   @IsArray()
   @ArrayNotEmpty()
   order_items: OrderItemDto[]

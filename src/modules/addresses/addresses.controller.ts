@@ -10,14 +10,14 @@ import {
   Query,
 } from '@nestjs/common'
 import { AddressesService } from './addresses.service'
-import { NewAddressDto, UpdateAddressDto } from '@eshop/core/dto'
+import { NewAddressDto, QueryAddressDto, UpdateAddressDto } from '@eshop/core'
 
 @Controller('addresses')
 export class AddressesController {
   constructor(private addressesService: AddressesService) {}
 
   @Get()
-  getMany(@Query() filter: any) {
+  getMany(@Query() filter: QueryAddressDto) {
     return this.addressesService.getMany(filter)
   }
 

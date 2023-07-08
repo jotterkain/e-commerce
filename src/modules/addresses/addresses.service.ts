@@ -1,4 +1,4 @@
-import { NewAddressDto, UpdateAddressDto } from '@eshop/core/dto'
+import { NewAddressDto, UpdateAddressDto } from '@eshop/core'
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
 
@@ -15,7 +15,7 @@ export class AddressesService {
   }
 
   async create(dto: NewAddressDto) {
-    return await this.prismaService.address.create({ data: dto })
+    return await this.prismaService.address
   }
 
   async update(id: string, dto: UpdateAddressDto) {

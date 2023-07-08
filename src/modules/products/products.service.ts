@@ -1,4 +1,4 @@
-import { NewProductDto, UpdateProductDto } from '@eshop/core/dto'
+import { NewProductDto, UpdateProductDto } from '@eshop/core'
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
 
