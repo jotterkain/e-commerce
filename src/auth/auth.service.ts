@@ -26,21 +26,20 @@ export class AuthService {
     }
 
     async signIn(dto: SignInDto) {
-        if (!dto.email && !dto.password) {
+        if (!dto.email && !dto.password && !dto.username)
             throw new BadRequestException("Either email or password is required to sign in")
-        }
-        if (dto.email && dto.password) {
-            throw new BadRequestException("You have to provide either email or password. Not both")
-        }
-        let filter = dto.phone ? { phone: dto.phone } : { email: dto.email }
+
+        if ([dto.email, dto.phone, dto.username].filter(e => !!e).length >= 2)
+            throw new BadRequestException("You have to provide either email, phone number or username")
+
+        let filter = dto.phone ? { phone: dto.phone } : dto.username ? { username: dto.username } : { email: dto.email }
         const user = await this.usersSerice.getFirst(filter)
 
         if (isEmpty(user))
-            throw new ForbiddenException(`User with these credentials does not exists`)
+            throw new ForbiddenException("User with these credentials does not exists")
 
-
-        if (!compare(dto.password, user.hash))
-            throw new UnauthorizedException("Incorrect password");
+        if (!(await compare(dto.password, user.hash)))
+            throw new UnauthorizedException("Incorrect password")
 
         const payload = { sub: user.id }
         return {
@@ -48,7 +47,7 @@ export class AuthService {
         }
     }
 
-    async logout (id:string) {
+    async logout(id: string) {
 
     }
 
