@@ -7,7 +7,7 @@ export class QueryOrderDto {
   user_id?: string
   @IsOptional()
   @IsString()
-  card_id?: string
+  payment_id?: string
   @IsOptional()
   @IsString()
   address_id?: string

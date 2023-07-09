@@ -8,23 +8,22 @@ datasource db {
 }
 
 model User {
-  id          String    @id @default(uuid()) @db.Uuid
-  username    String    @unique
-  first_name  String?
-  last_name   String?
-  phone       String    @unique
-  email       String?   @unique
-  hash        String
-  role        Role      @default(CUSTOMER)
-  active      Boolean   @default(true)
-  wishes      Product[] @relation("wishes")
-  favorites   Product[] @relation("favorites")
-  addresses   Address[]
-  cards       Card[]    @relation("users_card")
-  primaryCard Card[]    @relation("primary_cards")
-  orders      Order[]
-  created_at  DateTime  @default(now())
-  updated_at  DateTime  @updatedAt
+  id         String    @id @default(uuid()) @db.Uuid
+  username   String    @unique
+  first_name String?
+  last_name  String?
+  phone      String    @unique
+  email      String?   @unique
+  hash       String
+  pp         String?
+  role       Role      @default(CUSTOMER)
+  active     Boolean   @default(true)
+  wishes     Product[] @relation("wishes")
+  favorites  Product[] @relation("favorites")
+  addresses  Address[]
+  orders     Order[]
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
 }
 
 model Address {
@@ -79,6 +78,7 @@ model Category {
   id          Int        @id @default(autoincrement())
   name        String     @unique
   description String?
+  hero        String?
   parent      Category[] @relation("parent_category")
   children    Category[] @relation("parent_category")
   products    Product[]  @relation("product_categories")
@@ -86,15 +86,10 @@ model Category {
   updated_at  DateTime   @updatedAt
 }
 
-model Card {
-  id         String   @id @default(uuid()) @db.Uuid
-  name       String
-  num        String
-  cvv        String
-  exp        DateTime
-  usedBy     User[]   @relation("users_card")
-  orders     Order[]
-  primaryOf  User[]   @relation("primary_cards")
+model Payment {
+  id         String   @id
+  order      Order    @relation(fields: [order_id], references: [id], onDelete: Restrict)
+  order_id   String   @unique @db.Uuid
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
@@ -105,8 +100,7 @@ model Order {
   user_id     String      @db.Uuid
   order_items OrderItem[]
   status      OrderStatus @default(PENDING)
-  card        Card        @relation(fields: [card_id], references: [id])
-  card_id     String      @db.Uuid
+  payment     Payment?
   total       Decimal
   address     Address     @relation(fields: [address_id], references: [id])
   address_id  String      @db.Uuid

@@ -4,8 +4,8 @@ export * from "./address/query-address.dto"
 
 export * from "./auth/signin.dto"
 
-export * from './card/new-card.dto'
-export * from "./card/query-card.dto"
+export * from './payment/new-payment.dto'
+export * from "./payment/query-payment.dto"
 
 export * from './category/new-category.dto'
 export * from './category/update-category.dto'

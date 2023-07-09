@@ -6,3 +6,5 @@ TODO: Handle array push remove services dto (
 TODO: PUT users/usersId/phone|email
 
 TODO: Handle primary card
+
+TODO: Security service not tested

@@ -20,7 +20,7 @@ export class AddressesController {
   constructor(private addressesService: AddressesService) {}
 
   @Get()
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN,Role.EMPLOYEE)
   @UseGuards(AuthGuard,RoleGuard)
   getMany(@Query() filter: QueryAddressDto) {
     return this.addressesService.getMany(filter)

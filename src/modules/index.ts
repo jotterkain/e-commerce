@@ -1,5 +1,4 @@
 export * from "./addresses/addresses.module"
-export * from "./cards/cards.module"
 export * from "./categories/categories.module"
 export * from "./orders/orders.module"
 export * from "./products/products.module"

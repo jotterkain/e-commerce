@@ -1,9 +1,11 @@
-import { generateRandomString } from '@eshop/common'
+import { generateRandomString, uploadDirProvider } from '@eshop/common'
 import { NewUserDto, QueryUserDto, UpdateUserDto } from '@eshop/core'
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { isEmpty } from 'class-validator'
+import path from 'path'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { SecurityService } from 'src/security/security.service'
+import * as fs from "fs"
 
 @Injectable()
 export class UsersService {
@@ -62,5 +64,21 @@ export class UsersService {
 
   async getFirst(filter:QueryUserDto) {
     return await this.prismaService.user.findFirst({where: filter})
+  }
+
+  async setPP(id: number, destination: string,filename:string) {
+    try{
+      return await this.prismaService.category.update({
+        where: { id },
+        data: {
+          hero: destination
+        }
+      })
+    }catch(error) {
+      if (fs.existsSync(path.resolve(uploadDirProvider(), `${filename}`))) {
+        fs.rmSync(path.resolve(uploadDirProvider(), `${filename}`))
+    }
+    throw error
+    }
   }
 }

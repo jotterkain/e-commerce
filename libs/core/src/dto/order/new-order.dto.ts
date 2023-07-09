@@ -1,7 +1,6 @@
 import {
   ArrayNotEmpty,
   IsArray,
-  IsInt,
   IsNotEmpty,
   IsString,
 } from 'class-validator'
@@ -14,7 +13,7 @@ export class NewOrderDto {
   order_items: OrderItemDto[]
   @IsNotEmpty()
   @IsString()
-  card_id: string
+  payment_id: string
   @IsNotEmpty()
   @IsString()
   address_id: string
