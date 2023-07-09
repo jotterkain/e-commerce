@@ -8,15 +8,20 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common'
 import { AddressesService } from './addresses.service'
-import { NewAddressDto, QueryAddressDto, UpdateAddressDto } from '@eshop/core'
+import { NewAddressDto, QueryAddressDto, Role, UpdateAddressDto } from '@eshop/core'
+import { AuthGuard, RoleGuard } from 'src/guards'
+import { Roles } from '@eshop/common'
 
 @Controller('addresses')
 export class AddressesController {
   constructor(private addressesService: AddressesService) {}
 
   @Get()
+  @Roles(Role.ADMIN)
+  @UseGuards(AuthGuard,RoleGuard)
   getMany(@Query() filter: QueryAddressDto) {
     return this.addressesService.getMany(filter)
   }

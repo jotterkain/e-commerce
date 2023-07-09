@@ -10,7 +10,7 @@ import {
   Query,
 } from '@nestjs/common'
 import { UsersService } from './users.service'
-import { NewUserDto, QueryUserDto, UpdateUserDto } from '@eshop/core'
+import { QueryUserDto, UpdateUserDto } from '@eshop/core'
 
 @Controller('users')
 export class UsersController {
@@ -24,11 +24,6 @@ export class UsersController {
   @Get(':id')
   getOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.getOne(id)
-  }
-
-  @Post()
-  create(@Body() dto: NewUserDto) {
-    return this.usersService.create(dto)
   }
 
   @Put(':id')

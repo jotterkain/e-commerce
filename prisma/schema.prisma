@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -19,14 +16,25 @@ model User {
   email       String?   @unique
   hash        String
   role        Role      @default(CUSTOMER)
+  active      Boolean   @default(true)
   wishes      Product[] @relation("wishes")
   favorites   Product[] @relation("favorites")
   addresses   Address[]
   cards       Card[]    @relation("users_card")
   primaryCard Card[]    @relation("primary_cards")
   orders      Order[]
+  cart        Cart?     @relation("user_cart")
   created_at  DateTime  @default(now())
   updated_at  DateTime  @updatedAt
+}
+
+model Cart {
+  id         String      @id @default(uuid()) @db.Uuid
+  items      OrderItem[] @relation("cart")
+  owner      User        @relation("user_cart", fields: [owner_id], references: [id], onDelete: Cascade)
+  owner_id   String      @unique @db.Uuid
+  created_at DateTime    @default(now())
+  updated_at DateTime    @updatedAt
 }
 
 model Address {
@@ -125,6 +133,7 @@ model OrderItem {
   order      Order           @relation(fields: [order_id], references: [id])
   order_id   String          @db.Uuid
   total      Decimal
+  carts      Cart[]          @relation("cart") @ignore
   created_at DateTime        @default(now())
   updated_at DateTime        @updatedAt
 }

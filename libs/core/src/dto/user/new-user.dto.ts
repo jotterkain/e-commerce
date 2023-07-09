@@ -1,4 +1,5 @@
 import {
+  IsEmail,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -16,7 +17,7 @@ export class NewUserDto {
   @IsString()
   phone: string
   @IsOptional()
-  @IsString()
+  @IsEmail()
   email?: string
   @IsNotEmpty()
   @IsStrongPassword({

@@ -9,7 +9,7 @@ export class RoleGuard implements CanActivate {
   constructor(private reflector: Reflector) { }
 
   canActivate(context: ExecutionContext,): boolean | Promise<boolean> | Observable<boolean> {
-    const requiredRoles: Role[] = this.reflector.get<Role[]>("roles", context.getHandler())
+    const requiredRoles: Role[] = this.reflector.getAllAndOverride<Role[]>("roles", [context.getHandler(), context.getClass()])
     const request = context.switchToHttp().getRequest()
     const user = request.user
 
@@ -18,7 +18,7 @@ export class RoleGuard implements CanActivate {
     }
 
     const ans = requiredRoles.includes(user.role as Role)
-    if (!ans) throw new ForbiddenException(`Only allowed to: ${requiredRoles.map(role=>role).join(", ")}.`)
+    if (!ans) throw new ForbiddenException(`Only allowed to: ${requiredRoles.map(role => role).join(", ")}.`)
     return true
   }
 }

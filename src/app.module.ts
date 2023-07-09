@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module'
 import { AddressesModule, CardsModule, CategoriesModule, OrdersModule, ProductsModule, UsersModule } from './modules'
 import { NotificationsModule } from './notifications/notifications.module';
 import { LoggerMiddleware } from './logger/logger.middleware'
+import { ConfigModule } from '@nestjs/config'
 
 @Module({
   imports: [
@@ -19,7 +20,10 @@ import { LoggerMiddleware } from './logger/logger.middleware'
     OrdersModule,
     ProductsModule,
     UsersModule,
-    NotificationsModule
+    NotificationsModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
   ],
   controllers: [],
   providers: [],

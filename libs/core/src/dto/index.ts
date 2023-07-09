@@ -2,6 +2,8 @@ export * from './address/new-address.dto'
 export * from './address/update-address.dto'
 export * from "./address/query-address.dto"
 
+export * from "./auth/signin.dto"
+
 export * from './card/new-card.dto'
 export * from "./card/query-card.dto"
 
