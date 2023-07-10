@@ -6,16 +6,17 @@ import { AddressesModule, CategoriesModule, OrdersModule, ProductsModule, UsersM
 import { NotificationsModule } from './notifications/notifications.module';
 import { LoggerMiddleware } from './logger/logger.middleware'
 import { ConfigModule } from '@nestjs/config'
-import { MulterModule } from '@nestjs/platform-express'
-import { uploadDirProvider } from '@eshop/common'
 import { FilesController } from './files.controller'
+import { UsersService } from './modules/users/users.service'
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     PrismaModule,
     SecurityModule,
     AuthModule,
-    NotificationsModule,
 
     AddressesModule,
     CategoriesModule,
@@ -23,15 +24,9 @@ import { FilesController } from './files.controller'
     ProductsModule,
     UsersModule,
     NotificationsModule,
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
-    MulterModule.register({
-      dest: uploadDirProvider()
-    })
   ],
   controllers: [FilesController],
-  providers: [],
+  providers: [UsersService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

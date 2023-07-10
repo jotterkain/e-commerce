@@ -1,11 +1,12 @@
-import { generateRandomString, uploadDirProvider } from '@eshop/common'
+import { deleteFile, generateRandomString, uploadDirProvider } from '@eshop/common'
 import { NewUserDto, QueryUserDto, UpdateUserDto } from '@eshop/core'
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { isEmpty } from 'class-validator'
-import path from 'path'
+import * as path from 'path'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { SecurityService } from 'src/security/security.service'
 import * as fs from "fs"
+import { Request } from 'express'
 
 @Injectable()
 export class UsersService {
@@ -62,23 +63,31 @@ export class UsersService {
     })
   }
 
-  async getFirst(filter:QueryUserDto) {
-    return await this.prismaService.user.findFirst({where: filter})
+  async getFirst(filter: QueryUserDto) {
+    return await this.prismaService.user.findFirst({ where: filter })
   }
 
-  async setPP(id: number, destination: string,filename:string) {
-    try{
-      return await this.prismaService.category.update({
+  async setPicture(req: Request, id: string, filename: string) {
+    try {
+      const url = `${req.protocol}://${req.headers.host}/api/res/${filename}`
+      const oldPictureUrl = (await this.getOne(id))?.picture
+      const oldPictureName = oldPictureUrl?.split("/").pop()
+      const updatedUser = await this.prismaService.user.update({
         where: { id },
         data: {
-          hero: destination
+          picture: url
+        },
+        select: {
+          id: true,
+          username: true,
+          picture: true
         }
       })
-    }catch(error) {
-      if (fs.existsSync(path.resolve(uploadDirProvider(), `${filename}`))) {
-        fs.rmSync(path.resolve(uploadDirProvider(), `${filename}`))
-    }
-    throw error
+      deleteFile(oldPictureName)
+      return updatedUser
+    } catch (error) {
+      deleteFile(filename)
+      throw error
     }
   }
 }

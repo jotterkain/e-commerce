@@ -6,3 +6,4 @@ migrations
 yarn.lock
 dist
 .idea
+rap

@@ -13,9 +13,10 @@ model User {
   first_name String?
   last_name  String?
   phone      String    @unique
+  phones     String[]
   email      String?   @unique
   hash       String
-  pp         String?
+  picture    String?
   role       Role      @default(CUSTOMER)
   active     Boolean   @default(true)
   wishes     Product[] @relation("wishes")
