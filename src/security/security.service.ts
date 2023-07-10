@@ -44,6 +44,10 @@ export class SecurityService implements OnModuleInit {
         return isEmpty(cipher) ? cipher : this.decrypt(cipher)
     }
 
+    /**
+     * @param text the text to be hashed .
+     * @returns string - The hashed text.
+    **/
     async hash(text: string) {
         const salt = await bcrypt.genSalt()
         return await bcrypt.hash(text, salt)
