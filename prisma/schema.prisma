@@ -8,23 +8,24 @@ datasource db {
 }
 
 model User {
-  id         String    @id @default(uuid()) @db.Uuid
-  username   String    @unique
-  first_name String?
-  last_name  String?
-  phone      String    @unique
-  phones     String[]
-  email      String?   @unique
-  hash       String
-  picture    String?
-  role       Role      @default(CUSTOMER)
-  active     Boolean   @default(true)
-  wishes     Product[] @relation("wishes")
-  favorites  Product[] @relation("favorites")
-  addresses  Address[]
-  orders     Order[]
-  created_at DateTime  @default(now())
-  updated_at DateTime  @updatedAt
+  id            String         @id @default(uuid()) @db.Uuid
+  username      String         @unique
+  first_name    String?
+  last_name     String?
+  phone         String         @unique
+  phones        String[]
+  email         String?        @unique
+  hash          String
+  picture       String?
+  role          Role           @default(CUSTOMER)
+  active        Boolean        @default(true)
+  wishes        Product[]      @relation("wishes")
+  favorites     Product[]      @relation("favorites")
+  addresses     Address[]
+  orders        Order[]
+  notifications Notification[]
+  created_at    DateTime       @default(now())
+  updated_at    DateTime       @updatedAt
 }
 
 model Address {
@@ -48,9 +49,10 @@ model Product {
   name        String
   description String?
   price       Decimal
-  category    Category[]      @relation("product_categories")
+  categories  Category[]      @relation("product_categories")
   hero        String?
   images      String[]
+  stock       Int
   wished_by   User[]          @relation("wishes")
   favorite_of User[]          @relation("favorites")
   options     ProductOption[]
@@ -65,7 +67,7 @@ model ProductOption {
   label       String
   description String?
   price       Decimal
-  product     Product     @relation(fields: [product_id], references: [id])
+  product     Product     @relation(fields: [product_id], references: [id], onDelete: Cascade)
   product_id  String      @db.Uuid
   items       OrderItem[]
   created_at  DateTime    @default(now())
@@ -92,7 +94,6 @@ model Payment {
   order      Order    @relation(fields: [order_id], references: [id], onDelete: Restrict)
   order_id   String   @unique @db.Uuid
   created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
 }
 
 model Order {
@@ -117,9 +118,32 @@ model OrderItem {
   product_id String          @db.Uuid
   order      Order           @relation(fields: [order_id], references: [id])
   order_id   String          @db.Uuid
-  total      Decimal
   created_at DateTime        @default(now())
   updated_at DateTime        @updatedAt
+}
+
+model Notification {
+  id         String             @id @default(uuid()) @db.Uuid
+  user       User               @relation(fields: [user_id], references: [id])
+  user_id    String             @db.Uuid
+  object     String
+  message    String
+  status     NotificationStatus @default(SENT)
+  type       NotificationMedium
+  created_at DateTime           @default(now())
+}
+
+enum NotificationMedium {
+  SMS
+  EMAIL
+  APP
+  ALL
+}
+
+enum NotificationStatus {
+  SENT
+  RECEIVED
+  SEEN
 }
 
 enum OrderStatus {

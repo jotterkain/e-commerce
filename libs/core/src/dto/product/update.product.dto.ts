@@ -1,4 +1,4 @@
-import { IsArray, IsOptional, IsString } from 'class-validator'
+import { IsArray, IsInt, IsOptional, IsString } from 'class-validator'
 
 export class UpdateProductDto {
   @IsOptional()
@@ -16,4 +16,7 @@ export class UpdateProductDto {
   @IsOptional()
   @IsArray()
   images?: string[]
+  @IsOptional()
+  @IsInt()
+  stock: number
 }

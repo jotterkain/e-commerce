@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsString, IsInt } from 'class-validator'
+import { IsNotEmpty, IsString, IsInt, IsArray } from 'class-validator'
+import { ProductOptionDto } from '../product/product-option.dto'
 
 export class OrderItemDto {
   @IsNotEmpty()
@@ -7,4 +8,6 @@ export class OrderItemDto {
   @IsNotEmpty()
   @IsInt()
   quantity: number
+  @IsArray()
+  options: ProductOptionDto[]
 }

@@ -16,7 +16,8 @@ export class CategoriesService {
     return await this.prismaService.category.findMany({ where: filter })
   }
   async deleteOne(id: number) {
-    return await this.prismaService.category.delete({ where: { id } })
+    const deleted = await this.prismaService.category.delete({ where: { id } })
+    deleteFile(deleted.hero?.split("/").pop())
   }
 
   async create(dto: NewCategoryDto) {
@@ -37,7 +38,7 @@ export class CategoriesService {
       const url = `${req.protocol}://${req.headers.host}/api/res/${filename}`
       const oldHeroUrl = (await this.getOne(id))?.hero
       const oldHeroName = oldHeroUrl?.split("/").pop()
-      const updatedAddress = await this.prismaService.category.update({
+      const updatedCategory = await this.prismaService.category.update({
         where: { id },
         data: {
           hero: url
@@ -49,7 +50,7 @@ export class CategoriesService {
         }
       })
       deleteFile(oldHeroName)
-      return updatedAddress
+      return updatedCategory
     } catch (error) {
       deleteFile(filename)
       throw error

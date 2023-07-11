@@ -18,6 +18,9 @@ export class UsersService {
     return await this.prismaService.user.findMany({ where: filter })
   }
 
+  /**
+   * @todo delete files
+  **/
   async deleteOne(id: string) {
     return await this.prismaService.user.delete({ where: { id } })
   }
@@ -124,11 +127,12 @@ export class UsersService {
   }
 
   async removePhoneNumber(id: string, phone: string) {
-    let exists = (await this.getOne(id))?.phones.includes(phone);
+    let phones = (await this.getOne(id))?.phones
+    let exists = phones.includes(phone);
     if (!exists)
       throw new NotFoundException("This phone number does not exists")
-    let index = (await this.getOne(id))?.phones.indexOf(phone);
-    let popped = (await this.getOne(id))?.phones.splice(index, 1);
+    let index = phones.indexOf(phone);
+    let popped = phones.splice(index, 1);
     return await this.prismaService.user.update({
       where: {
         id

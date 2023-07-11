@@ -1,6 +1,7 @@
 import {
   IsArray,
   IsDecimal,
+  IsInt,
   IsNotEmpty,
   IsOptional,
   IsPositive,
@@ -22,10 +23,8 @@ export class NewProductDto {
   @IsNotEmpty()
   @IsArray()
   categories: number[]
-  @IsOptional()
-  hero?: any
-  @IsOptional()
-  images: any
+  @IsInt()
+  stock: number
   @IsNotEmpty()
   @IsArray()
   options: ProductOptionDto[]
