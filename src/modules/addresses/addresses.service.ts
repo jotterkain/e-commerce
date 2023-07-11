@@ -14,8 +14,8 @@ export class AddressesService {
     return await this.prismaService.address.findMany({ where: filter })
   }
 
-  async create(dto: NewAddressDto) {
-    return await this.prismaService.address
+  async create(dto: NewAddressDto,user_id:string) {
+    return await this.prismaService.address.create({ data: {user_id,...dto} })
   }
 
   async update(id: string, dto: UpdateAddressDto) {

@@ -1,11 +1,9 @@
-import { deleteFile, generateRandomString, uploadDirProvider } from '@eshop/common'
+import { deleteFile, generateRandomString } from '@eshop/common'
 import { NewUserDto, QueryUserDto, UpdateUserDto } from '@eshop/core'
-import { BadRequestException, Injectable } from '@nestjs/common'
+import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common'
 import { isEmpty } from 'class-validator'
-import * as path from 'path'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { SecurityService } from 'src/security/security.service'
-import * as fs from "fs"
 import { Request } from 'express'
 
 @Injectable()
@@ -28,11 +26,14 @@ export class UsersService {
     return await this.prismaService.user.update({
       where: { id },
       data: {
-        active: !(await this.getOne(id)).active
+        active: !(await this.getOne(id))?.active
       }
     })
   }
 
+  /**
+   * @todo verification phone number
+  **/
   async create(dto: NewUserDto) {
     if (!dto.first_name && !dto.last_name) {
       throw new BadRequestException("Both first_name and last_name can't be empty")
@@ -43,7 +44,7 @@ export class UsersService {
     const hash = await this.securityService.hash(dto.password)
     delete dto.password
 
-    let username: string;
+    let username: string
 
     do {
       username = dto.first_name + generateRandomString(6)
@@ -89,5 +90,54 @@ export class UsersService {
       deleteFile(filename)
       throw error
     }
+  }
+
+  /**
+   * @todo verify email
+  **/
+  async setEmail(id: string, email: string) {
+    return await this.prismaService.user.update({
+      where: { id },
+      data: {
+        email: email
+      }
+    })
+  }
+
+  /**
+   * @todo verification phone number
+  **/
+  async addPhoneNumber(id: string, phone: string) {
+    let exists = (await this.getOne(id))?.phones.includes(phone);
+    if (exists)
+      throw new ConflictException("This phone number already exists")
+    return await this.prismaService.user.update({
+      where: {
+        id
+      },
+      data: {
+        phones: {
+          push: phone
+        }
+      }
+    })
+  }
+
+  async removePhoneNumber(id: string, phone: string) {
+    let exists = (await this.getOne(id))?.phones.includes(phone);
+    if (!exists)
+      throw new NotFoundException("This phone number does not exists")
+    let index = (await this.getOne(id))?.phones.indexOf(phone);
+    let popped = (await this.getOne(id))?.phones.splice(index, 1);
+    return await this.prismaService.user.update({
+      where: {
+        id
+      },
+      data: {
+        phones: {
+          set: popped
+        }
+      }
+    })
   }
 }

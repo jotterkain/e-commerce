@@ -1,10 +1,8 @@
 import { NewCategoryDto, QueryCategoryDto, UpdateCategoryDto } from '@eshop/core'
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
-import { Express } from "express"
-import path from 'path'
-import * as fs from "fs"
-import { uploadDirProvider } from '@eshop/common'
+import { Request } from "express"
+import { deleteFile } from '@eshop/common'
 
 @Injectable()
 export class CategoriesService {
@@ -34,20 +32,27 @@ export class CategoriesService {
     })
   }
 
-  async setHero(id: number, destination: string,filename:string) {
-    try{
-      return await this.prismaService.category.update({
+  async setHero(req: Request, id: number, filename:string) {
+    try {
+      const url = `${req.protocol}://${req.headers.host}/api/res/${filename}`
+      const oldHeroUrl = (await this.getOne(id))?.hero
+      const oldHeroName = oldHeroUrl?.split("/").pop()
+      const updatedAddress = await this.prismaService.category.update({
         where: { id },
         data: {
-          hero: destination
+          hero: url
+        },
+        select: {
+          id: true,
+          name: true,
+          hero: true
         }
       })
-    }catch(error) {
-      if (fs.existsSync(path.resolve(uploadDirProvider(), `${filename}`))) {
-        fs.rmSync(path.resolve(uploadDirProvider(), `${filename}`))
+      deleteFile(oldHeroName)
+      return updatedAddress
+    } catch (error) {
+      deleteFile(filename)
+      throw error
     }
-    throw error
-    }
-    
   }
 }

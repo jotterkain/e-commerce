@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  Logger,
   Param,
   ParseFilePipe,
   ParseUUIDPipe,
@@ -12,22 +11,16 @@ import {
   Req,
   UploadedFile,
   UseInterceptors,
-  ValidationPipe,
 } from '@nestjs/common'
 import { UsersService } from './users.service'
 import { QueryUserDto, UpdateUserDto } from '@eshop/core'
 import { FileInterceptor } from '@nestjs/platform-express'
-import { diskStorage } from 'multer'
-import * as path from 'path'
 import { Request } from 'express'
-import { uploadDirProvider } from '@eshop/common'
 
 @Controller('users')
 export class UsersController {
 
-  private readonly logger = new Logger(UsersController.name)
-
-  constructor(private usersService: UsersService) {}
+  constructor(private usersService: UsersService) { }
 
   @Get()
   getMany(@Query() filter: QueryUserDto) {
@@ -52,6 +45,26 @@ export class UsersController {
   @Put(":id/picture")
   @UseInterceptors(FileInterceptor("file"))
   setPicture(@UploadedFile(new ParseFilePipe({ fileIsRequired: true })) file: Express.Multer.File, @Param('id') id: string, @Req() req: Request) {
-    return this.usersService.setPicture(req,id,file.filename)
+    return this.usersService.setPicture(req, id, file.filename)
+  }
+
+  @Put(":id/phone")
+  addPhoneNumber(@Param('id') id: string, @Body("phone") phone: string) {
+    return this.usersService.addPhoneNumber(id, phone)
+  }
+
+  @Delete(":id/phone/:phone")
+  removePhoneNumber(@Param('id',ParseUUIDPipe) id: string, @Param('phone') phone: string) {
+    return this.usersService.removePhoneNumber(id, phone)
+  }
+
+  @Put(":id/email")
+  setEmail(@Param('id',ParseUUIDPipe) id: string, @Body("email") email: string) {
+    return this.usersService.setEmail(id, email)
+  }
+
+  @Put(":id/active")
+  toogleActive(@Param('id',ParseUUIDPipe) id: string) {
+    return this.usersService.toogleActive(id)
   }
 }
